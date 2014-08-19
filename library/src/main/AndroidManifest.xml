@@ -4,7 +4,6 @@
     <application
         android:label="@string/library_name"
         android:theme="@android:style/Theme.Holo.Light">
-
     </application>
 
 </manifest>
