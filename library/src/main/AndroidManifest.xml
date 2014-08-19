@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.r0adkll.slidableactivity">
+
+    <application
+        android:label="@string/library_name"
+        android:theme="@android:style/Theme.Holo.Light">
+
+    </application>
+
+</manifest>
