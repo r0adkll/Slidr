@@ -20,6 +20,11 @@ An example usage:
 		
 	}
 	
+Another way to use this library is to use the experimental Attacher class:
+
+    SlidableAttacher.attach(Activity activity);
+    
+to attach the slide-to-dismiss functionality to any given activity.	
 
 You can lock and unlock the sliding controller using the following functions.
 
