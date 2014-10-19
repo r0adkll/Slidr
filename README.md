@@ -1,5 +1,6 @@
 SlidableActivity
 ================
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity)
 
 Easily add slide-to-dismiss functionality to your Activity by extending the `SlidableActivity` or `SupportSidableActivity`.
 
