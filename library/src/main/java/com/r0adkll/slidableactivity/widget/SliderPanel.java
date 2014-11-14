@@ -14,6 +14,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.r0adkll.slidableactivity.SlidableAttacher;
+
 /**
  * Project: PilotPass
  * Package: com.ftinc.mariner.pilotpass.widgets
@@ -218,7 +220,8 @@ public class SliderPanel extends FrameLayout {
     }
 
     /**
-     *
+     * The panel sliding interface that gets called
+     * whenever the panel is closed or opened
      */
     public static interface OnPanelSlideListener{
         public void onClosed();
