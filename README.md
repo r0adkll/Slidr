@@ -2,42 +2,35 @@ SlidableActivity
 ================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity)
 
-Easily add slide-to-dismiss functionality to your Activity by extending the `SlidableActivity` or `SupportSidableActivity`.
+Easily add slide-to-dismiss functionality to your Activity by calling `SlidableAttacher.attach(this)` in your `onCreate(..)` method. 
 
 ## Usage
 
 An example usage:
 
-	public class ExampleActivity extends SlidableActivity {
+	public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivity> {
 		
 		@Override
 		public void onCreate(Bundle savedInstanceState){
-			setContentView(R.layout.activity_example);
 			super.onCreate(savedInstanceState);
-			
-			// ... Other setup stuffz
-			
+			SlidableAttacher.attach(this);
+			setContentView(R.layout.activity_example);
 		}
 		
 	}
 	
-Another way to use this library is to use the experimental Attacher class:
+`SlidableAttacher.attach(...)` will return a `SlideLockInterface` which gives you access to two methods:
 
-    SlidableAttacher.attach(Activity activity);
-    
-to attach the slide-to-dismiss functionality to any given activity.	
-
-You can lock and unlock the sliding controller using the following functions.
-
-	public void lock(){...}
+	SlideLockInterface.lock();
+	SlideLockInterface.unlock();
 	
-	public void unlock(){...}
+These methods lock or unlock the slidable touch interface.
 	
 ## Including in your project
 
 Include this line in your gradle build file:
 
-	compile 'com.r0adkll:slidableactivity:+'
+	compile 'com.r0adkll:slidableactivity:{latest_version}'
 	
 ## Author
 
