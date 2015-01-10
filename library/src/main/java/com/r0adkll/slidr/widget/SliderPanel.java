@@ -3,7 +3,7 @@
  * All Rights Reserved.
  */
 
-package com.r0adkll.slidableactivity.widget;
+package com.r0adkll.slidr.widget;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,8 +13,6 @@ import android.support.v4.widget.ViewDragHelper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import com.r0adkll.slidableactivity.SlidableAttacher;
 
 /**
  * Project: PilotPass
@@ -177,6 +175,8 @@ public class SliderPanel extends FrameLayout {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float percent = 1 - ((float)left / (float)mScreenWidth);
 
+            if(mListener != null) mListener.onSlideChange(percent);
+
             // Update the dimmer alpha
             float alpha = percent * MAX_DIM_ALPHA;
             mDimView.setAlpha(alpha);
@@ -226,6 +226,7 @@ public class SliderPanel extends FrameLayout {
     public static interface OnPanelSlideListener{
         public void onClosed();
         public void onOpened();
+        public void onSlideChange(float percent);
     }
 
 }
