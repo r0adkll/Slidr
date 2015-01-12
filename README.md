@@ -4,6 +4,8 @@ Slidr
 
 Easily add slide-to-dismiss functionality to your Activity by calling `SlidableAttacher.attach(this)` in your `onCreate(..)` method. 
 
+![Slidr Example](images/slidr_gif.gif "Gif Example")
+
 ## Usage
 
 An example usage:
