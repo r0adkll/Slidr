@@ -2,7 +2,7 @@ Slidr
 ================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity)
 
-Easily add slide-to-dismiss functionality to your Activity by calling `SlidableAttacher.attach(this)` in your `onCreate(..)` method. 
+Easily add slide-to-dismiss functionality to your Activity by calling `Slidr.attach(this)` in your `onCreate(..)` method. 
 
 ![Slidr Example](images/slidr_gif.gif "Gif Example")
 
@@ -10,44 +10,73 @@ Easily add slide-to-dismiss functionality to your Activity by calling `SlidableA
 
 An example usage:
 
-	public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivity> {
-		
-		@Override
-		public void onCreate(Bundle savedInstanceState){
-			super.onCreate(savedInstanceState);
-			setContentView(R.layout.activity_example);
-	        int primary = getResources().getColor(R.color.primaryDark);
-	        int secondary = getResources().getColor(R.color.secondaryDark);
-	        Slidr.attach(this, primary, secondary);
-		}
-		
+```java
+public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivity> {
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_example);
+        int primary = getResources().getColor(R.color.primaryDark);
+        int secondary = getResources().getColor(R.color.secondaryDark);
+        Slidr.attach(this, primary, secondary);
 	}
+	
+}
+```
 	
 or
 
-	public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivity> {
-		
-		@Override
-		public void onCreate(Bundle savedInstanceState){
-			super.onCreate(savedInstanceState);
-			setContentView(R.layout.activity_example);
-	        Slidr.attach(this);
-		}
-		
+```java
+public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivity> {
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState){
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_example);
+        Slidr.attach(this);
 	}
+	
+}
+```
 	
 `Slidr.attach(...)` will return a `SlidrInterface` which gives you access to two methods:
 
-	SlidrInterface.lock();
-	SlidrInterface.unlock();
+```java
+SlidrInterface.lock();
+SlidrInterface.unlock();
+```
 	
 These methods lock or unlock the slidable touch interface.
+
+The theme that you use for your sliding activity must have these attributes set:
+
+```xml
+<item name="android:windowIsTranslucent">true</item>  
+<item name="android:windowBackground">@android:color/transparent</item>
+```
+        
+Then in the layout of your activity you must give it a background like this;
+
+```xml
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_material_light">
+    
+    ...
+```
 	
 ## Including in your project
 
 Include this line in your gradle build file:
 
-	compile 'com.r0adkll:slidableactivity:{latest_version}'
+```groovy
+compile 'com.r0adkll:slidableactivity:{latest_version}'
+```
 	
 ## Author
 
