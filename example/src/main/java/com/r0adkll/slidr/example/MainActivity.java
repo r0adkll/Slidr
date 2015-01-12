@@ -1,39 +1,68 @@
-package com.r0adkll.myapplication;
+package com.r0adkll.slidr.example;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.r0adkll.deadskunk.adapters.BetterRecyclerAdapter;
+import com.r0adkll.slidr.example.model.AndroidOS;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
+
+    @InjectView(R.id.recycler)
+    RecyclerView mRecycler;
+
+    private OSVersionAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
+        initRecycler();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    /**
+     * Intialize Recycler
+     */
+    private void initRecycler(){
+        mAdapter = new OSVersionAdapter();
+        mAdapter.addAll(getData());
+        mRecycler.setAdapter(mAdapter);
+        mRecycler.setLayoutManager(new LinearLayoutManager(this));
+        mAdapter.setOnItemClickListener(new BetterRecyclerAdapter.OnItemClickListener<AndroidOS>() {
+            @Override
+            public void onItemClick(View view, AndroidOS androidOS, int i) {
+                // Launch the slidable activity
+                Intent viewer = new Intent(MainActivity.this, ViewerActivity.class);
+                viewer.putExtra(ViewerActivity.EXTRA_OS, androidOS);
+                startActivity(viewer);
+            }
+        });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    private List<AndroidOS> getData(){
+        InputStream is = getResources().openRawResource(R.raw.android_versions);
+        InputStreamReader isr = new InputStreamReader(is);
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<AndroidOS>>(){}.getType();
+        List<AndroidOS> oss = gson.fromJson(isr, listType);
+        return oss;
     }
+
 }

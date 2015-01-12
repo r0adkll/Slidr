@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="deadskunk-1.0.4-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/example/build/intermediates/exploded-aar/com.r0adkll/deadskunk/1.0.4-SNAPSHOT/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/example/build/intermediates/exploded-aar/com.r0adkll/deadskunk/1.0.4-SNAPSHOT/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

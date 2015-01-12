@@ -1,0 +1,92 @@
+[
+	{
+		"name": "Cupcake",
+		"version": "1.5",
+		"sdk_int": 4,
+		"description": "On April 27, 2009, the Android 1.5 update was released, based on Linux kernel 2.6.27.[26][27] This was the first release to officially use a codename based on a dessert item ('Cupcake'), a theme which would be used for all releases henceforth. The update included several new features and UI amendments",
+		"year": 2009,
+		"image_url":"http://www.androidheadlines.com/wp-content/uploads/2014/11/Android-1.5-Cupcake.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Donut",
+		"version": "1.6",
+		"sdk_int": 5,
+		"description": "On September 15, 2009, the Android 1.6 SDK – dubbed Donut – was released, based on Linux kernel 2.6.29.[30][31][32] Included in the update were numerous new features",
+		"year": 2009,
+		"image_url":"http://cdn.nlandroidp-poxes.savviihq.com/wp-content/uploads/2014/10/Android-1.6-Donut.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Eclair",
+		"version": "2.0",
+		"sdk_int": 6,
+		"description": "On October 26, 2009, the Android 2.0 SDK – codenamed Eclair – was released, based on Linux kernel 2.6.29.",
+		"year": 2009,
+		"image_url":"http://cdn.nlandroidp-poxes.savviihq.com/wp-content/uploads/2014/10/Android-2.0-Eclair.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Froyo",
+		"version": "2.2",
+		"sdk_int": 7,
+		"description": "On May 20, 2010, the SDK for Android 2.2 (Froyo, short for frozen yogurt) was released, based on Linux kernel 2.6.32.",
+		"year": 2010,
+		"image_url":"http://cdn.nlandroidp-poxes.savviihq.com/wp-content/uploads/2014/10/Android-2.2-Froyo.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Gingerbread",
+		"version": "2.3",
+		"sdk_int": 8,
+		"description": "On December 6, 2010, the Android 2.3 (Gingerbread) SDK was released, based on Linux kernel 2.6.35.[47][48] Changes included:",
+		"year": 2010,
+		"image_url":"http://theinspirationroom.com/daily/design/2013/9/android_gingerbread.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Honeycomb",
+		"version": "3.0",
+		"sdk_int": 11,
+		"description": "On February 22, 2011, the Android 3.0 (Honeycomb) SDK – the first tablet-only Android update – was released, based on Linux kernel 2.6.36.[61][62][63][64] The first device featuring this version, the Motorola Xoom tablet, was released on February 24, 2011.[65] The update's features included",
+		"year": 2011,
+		"image_url":"http://i.imgur.com/ejuaV2N.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Ice Cream Sandwich",
+		"version": "4.4",
+		"sdk_int": 14,
+		"description": "The SDK for Android 4.0.1 (Ice Cream Sandwich), based on Linux kernel 3.0.1,[74] was publicly released on October 19, 2011.[75] Google's Gabe Cohen stated that Android 4.0 was 'theoretically compatible' with any Android 2.3.x device in production at that time.[76] The source code for Android 4.0 became available on November 14, 2011.[77] Ice Cream Sandwich was the last version to officially support Adobe Systems' Flash player",
+		"year": 2011,
+		"image_url":"http://thepaperwall.com/wallpapers/computer_tech/big/big_d97df3431272137aff3ddec463a1f272623f7226.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Jellybean",
+		"version": "4.1, 4.2, 4.3",
+		"sdk_int": 15,
+		"description": "Google announced Android 4.1 (Jelly Bean) at the Google I/O conference on June 27, 2012. Based on Linux kernel 3.0.31, Jelly Bean was an incremental update with the primary aim of improving the functionality and performance of the user interface. The performance improvement involved 'Project Butter', which uses touch anticipation, triple buffering, extended vsync timing and a fixed frame rate of 60 fps to create a fluid and 'buttery-smooth' UI.[91] Android 4.1 Jelly Bean was released to the Android Open Source Project on July 9, 2012,[92] and the Nexus 7 tablet, the first device to run Jelly Bean, was released on July 13, 2012.",
+		"year": 2012,
+		"image_url":"http://cdn2.ubergizmo.com/wp-content/uploads/2012/06/jellybean-leak.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "KitKat",
+		"version": "4.4",
+		"sdk_int": 19,
+		"description": "Google announced Android 4.4 KitKat on September 3, 2013. Although initially under the 'Key Lime Pie' ('KLP') codename, the name was changed because 'very few people actually know the taste of a key lime pie.'[124] Some technology bloggers also expected the 'Key Lime Pie' release to be Android 5.[125] KitKat debuted on Google's Nexus 5 on October 31, 2013, and has been optimised to run on a greater range of devices than earlier Android versions, having 512 MB of RAM as a recommended minimum; those improvements were known as 'Project Svelte' internally at Google.[126] The required minimum amount of RAM available to Android is 340 MB, and all devices with less than 512 MB of RAM must report themselves as 'low RAM' devices",
+		"year": 2013,
+		"image_url":"http://tompaulus.com/wp-content/uploads/2013/11/Android-KitKat.jpg",
+		"icon_url":""
+	},
+	{
+		"name": "Lollipop",
+		"version": "5.0",
+		"sdk_int": 21,
+		"description": "Android 5.0 'Lollipop' was unveiled under the codename 'Android L' on June 25, 2014 during Google I/O, and became available as official over-the-air (OTA) updates on November 12, 2014 for select devices that run distributions of Android serviced by Google, including Nexus and Google Play edition devices. Its source code was made available on November 3, 2014. Lollipop brings a redesigned user interface built around a responsive design language referred to as 'material design'. Other changes include improvements to the notifications, which can be accessed from the lockscreen and displayed within applications as top-of-the-screen banners. Google also made internal changes to the platform, with the Android Runtime (ART) officially replacing Dalvik for improved application performance, and with changes intended to improve and optimize battery usage, known internally as Project Volta",
+		"year": 2014,
+		"image_url":"http://cdn.slashgear.com/wp-content/uploads/2014/10/lolli-820x420.jpg",
+		"icon_url":""
+	}
+]

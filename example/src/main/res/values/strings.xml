@@ -4,5 +4,6 @@
     <string name="app_name">SlidableActivity Example</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="placeholder_lorem_ipsum">Lorem ipsum dolor set it</string>
 
 </resources>
