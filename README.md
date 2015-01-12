@@ -13,16 +13,31 @@ An example usage:
 		@Override
 		public void onCreate(Bundle savedInstanceState){
 			super.onCreate(savedInstanceState);
-			SlidableAttacher.attach(this);
 			setContentView(R.layout.activity_example);
+	        int primary = getResources().getColor(R.color.primaryDark);
+	        int secondary = getResources().getColor(R.color.secondaryDark);
+	        Slidr.attach(this, primary, secondary);
 		}
 		
 	}
 	
-`SlidableAttacher.attach(...)` will return a `SlideLockInterface` which gives you access to two methods:
+or
 
-	SlideLockInterface.lock();
-	SlideLockInterface.unlock();
+	public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivity> {
+		
+		@Override
+		public void onCreate(Bundle savedInstanceState){
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_example);
+	        Slidr.attach(this);
+		}
+		
+	}
+	
+`Slidr.attach(...)` will return a `SlidrInterface` which gives you access to two methods:
+
+	SlidrInterface.lock();
+	SlidrInterface.unlock();
 	
 These methods lock or unlock the slidable touch interface.
 	
