@@ -14,6 +14,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrPosition;
+
+import static com.r0adkll.slidr.model.SlidrPosition.*;
+
 /**
  * Project: PilotPass
  * Package: com.ftinc.mariner.pilotpass.widgets
@@ -44,6 +49,8 @@ public class SliderPanel extends FrameLayout {
     private OnPanelSlideListener mListener;
     private boolean mIsLocked = false;
 
+    private SlidrConfig mConfig;
+
     /**
      * Constructor
      *
@@ -52,6 +59,14 @@ public class SliderPanel extends FrameLayout {
     public SliderPanel(Context context, View decorView) {
         super(context);
         mDecorView = decorView;
+        mConfig = new SlidrConfig.Builder().build();
+        init();
+    }
+
+    public SliderPanel(Context context, View decorView, SlidrConfig config){
+        super(context);
+        mDecorView = decorView;
+        mConfig = config;
         init();
     }
 
@@ -65,6 +80,9 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * Initialize the slider panel
+     *
+     * TODO: Based on SlidrPosition configure the ViewDragHelper to the appropriate position.
+     *
      */
     private void init(){
         mScreenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -72,9 +90,33 @@ public class SliderPanel extends FrameLayout {
         final float density = getResources().getDisplayMetrics().density;
         final float minVel = MIN_FLING_VELOCITY * density;
 
-        mDragHelper = ViewDragHelper.create(this, 1f, mCallback);
+        ViewDragHelper.Callback callback;
+        int position;
+        switch (mConfig.getPosition()){
+            case LEFT:
+                callback = mLeftCallback;
+                position = ViewDragHelper.EDGE_LEFT;
+                break;
+            case RIGHT:
+                callback = mRightCallback;
+                position = ViewDragHelper.EDGE_RIGHT;
+                break;
+            case TOP:
+                callback = mTopCallback;
+                position = ViewDragHelper.EDGE_TOP;
+                break;
+            case BOTTOM:
+                callback = mBottomCallback;
+                position = ViewDragHelper.EDGE_BOTTOM;
+                break;
+            default:
+                callback = mLeftCallback;
+                position = ViewDragHelper.EDGE_LEFT;
+        }
+
+        mDragHelper = ViewDragHelper.create(this, mConfig.getSensitivity(), callback);
         mDragHelper.setMinVelocity(minVel);
-        mDragHelper.setEdgeTrackingEnabled(ViewDragHelper.EDGE_LEFT);
+        mDragHelper.setEdgeTrackingEnabled(position);
 
         ViewGroupCompat.setMotionEventSplittingEnabled(this, false);
 
@@ -139,9 +181,9 @@ public class SliderPanel extends FrameLayout {
 
 
     /**
-     * The drag helper callback interface
+     * The drag helper callback interface for the Left position
      */
-    private ViewDragHelper.Callback mCallback = new ViewDragHelper.Callback() {
+    private ViewDragHelper.Callback mLeftCallback = new ViewDragHelper.Callback() {
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
@@ -204,6 +246,29 @@ public class SliderPanel extends FrameLayout {
             }
         }
 
+
+
+    };
+
+    private ViewDragHelper.Callback mRightCallback = new ViewDragHelper.Callback() {
+        @Override
+        public boolean tryCaptureView(View child, int pointerId) {
+            return false;
+        }
+    };
+
+    private ViewDragHelper.Callback mTopCallback = new ViewDragHelper.Callback() {
+        @Override
+        public boolean tryCaptureView(View child, int pointerId) {
+            return false;
+        }
+    };
+
+    private ViewDragHelper.Callback mBottomCallback = new ViewDragHelper.Callback() {
+        @Override
+        public boolean tryCaptureView(View child, int pointerId) {
+            return false;
+        }
     };
 
 
