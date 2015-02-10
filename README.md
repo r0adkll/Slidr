@@ -39,6 +39,22 @@ public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivit
 	
 }
 ```
+
+## Configuring
+
+```java
+SlidrConfig config = new SlidrConfig.Builder()
+	.primaryColor(getResources().getColor(R.color.primary)
+	.secondaryColor(getResources().getColor(R.color.secondary)
+	.position(SlidrPosition.LEFT|RIGHT|TOP|BOTTOM)
+	.sensitivity(1f)
+	.build();
+	
+Slidr.attach(this, config);
+
+```
+
+---
 	
 `Slidr.attach(...)` will return a `SlidrInterface` which gives you access to two methods:
 
