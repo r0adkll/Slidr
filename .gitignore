@@ -1,0 +1,10 @@
+
+local.properties
+Slidr.iml
+.idea/libraries
+.idea/encodings.xml
+.idea/compiler.xml
+.idea/modules.xml
+.idea/misc.xml
+.idea/vcs.xml
+build

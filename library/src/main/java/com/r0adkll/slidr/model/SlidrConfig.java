@@ -90,27 +90,27 @@ public class SlidrConfig {
             config = new SlidrConfig();
         }
 
-        public Builder setPrimaryColor(int color){
+        public Builder primaryColor(int color){
             config.colorPrimary = color;
             return this;
         }
 
-        public Builder setSecondaryColor(int color){
+        public Builder secondaryColor(int color){
             config.colorSecondary = color;
             return this;
         }
 
-        public Builder setPosition(SlidrPosition position){
+        public Builder position(SlidrPosition position){
             config.position = position;
             return this;
         }
 
-        public Builder setTouchSize(float size){
+        public Builder touchSize(float size){
             config.touchSize = size;
             return this;
         }
 
-        public Builder setSensitivity(float sensitivity){
+        public Builder sensitivity(float sensitivity){
             config.sensitivity = sensitivity;
             return this;
         }

@@ -5,8 +5,6 @@
       <root url="file://$PROJECT_DIR$/example/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/21.0.3/res" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/../../Developer/android-sdk/extras/android/m2repository/com/android/support/recyclerview-v7/21.0.3/recyclerview-v7-21.0.3-sources.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

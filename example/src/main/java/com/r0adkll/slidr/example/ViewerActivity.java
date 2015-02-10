@@ -10,6 +10,8 @@ import com.r0adkll.deadskunk.utils.Utils;
 import com.r0adkll.deadskunk.views.AspectRatioImageView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.example.model.AndroidOS;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrPosition;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -44,9 +46,20 @@ public class ViewerActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewer);
         ButterKnife.inject(this);
+
+        // Get the status bar colors to interpolate between
         int primary = getResources().getColor(R.color.primaryDark);
         int secondary = getResources().getColor(R.color.accent);
-        Slidr.attach(this, primary, secondary);
+
+        // Build the slidr config
+        SlidrConfig config = new SlidrConfig.Builder()
+                .primaryColor(primary)
+                .secondaryColor(secondary)
+                .position(SlidrPosition.RIGHT)
+                .build();
+
+        // Attach the Slidr Mechanism to this activity
+        Slidr.attach(this, config);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("");
@@ -54,12 +67,14 @@ public class ViewerActivity extends ActionBarActivity {
         mOS = getIntent().getParcelableExtra(EXTRA_OS);
         if(savedInstanceState != null) mOS = savedInstanceState.getParcelable(EXTRA_OS);
 
+        // Set layout contents
         mTitle.setText(mOS.name);
         mDescription.setText(mOS.description);
         mDate.setText(String.valueOf(mOS.year));
         mVersion.setText(mOS.version);
         mSdk.setText(String.valueOf(mOS.sdk_int));
 
+        // Load header image
         Picasso.with(this)
                 .load(mOS.image_url)
                 .into(mCover);

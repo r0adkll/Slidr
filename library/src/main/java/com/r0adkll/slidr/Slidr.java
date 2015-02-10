@@ -116,7 +116,7 @@ public class Slidr {
         decorView.removeViewAt(0);
 
         // Setup the slider panel and attach it to the decor
-        final SliderPanel panel = new SliderPanel(activity, oldScreen);
+        final SliderPanel panel = new SliderPanel(activity, oldScreen, config);
         panel.setId(R.id.slidable_panel);
         panel.addView(oldScreen);
         decorView.addView(panel, 0);
