@@ -10,13 +10,12 @@ import android.graphics.Color;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrPosition;
-
 import static com.r0adkll.slidr.model.SlidrPosition.*;
 
 /**
@@ -43,6 +42,7 @@ public class SliderPanel extends FrameLayout {
      */
 
     private int mScreenWidth;
+    private int mScreenHeight;
     private View mDimView;
     private View mDecorView;
     private ViewDragHelper mDragHelper;
@@ -118,6 +118,7 @@ public class SliderPanel extends FrameLayout {
         mDragHelper.setMinVelocity(minVel);
         mDragHelper.setEdgeTrackingEnabled(position);
 
+
         ViewGroupCompat.setMotionEventSplittingEnabled(this, false);
 
         // Setup the dimmer view
@@ -127,6 +128,18 @@ public class SliderPanel extends FrameLayout {
 
         // Add the dimmer view to the layout
         addView(mDimView);
+
+        /*
+         * This is so we can get the height of the view and
+         * ignore the system navigation that would be included if we
+         * retrieved this value from the DisplayMetrics
+         */
+        post(new Runnable() {
+            @Override
+            public void run() {
+                mScreenHeight = getHeight();
+            }
+        });
 
     }
 
@@ -182,6 +195,8 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * The drag helper callback interface for the Left position
+     *
+     *
      */
     private ViewDragHelper.Callback mLeftCallback = new ViewDragHelper.Callback() {
 
@@ -248,6 +263,11 @@ public class SliderPanel extends FrameLayout {
 
     };
 
+    /**
+     * The drag helper callbacks for dragging the slidr attachment from the right of the screen
+     *
+     *
+     */
     private ViewDragHelper.Callback mRightCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
@@ -311,17 +331,136 @@ public class SliderPanel extends FrameLayout {
         }
     };
 
+    /**
+     * The drag helper callbacks for dragging the slidr attachment from the top of the screen
+     *
+     */
     private ViewDragHelper.Callback mTopCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return false;
+            return child.getId() == mDecorView.getId();
+        }
+
+        @Override
+        public int clampViewPositionVertical(View child, int top, int dy) {
+            return clamp(top, 0, mScreenHeight);
+        }
+
+        @Override
+        public int getViewVerticalDragRange(View child) {
+            return mScreenHeight;
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
+
+            final int height = getHeight();
+            float offset = height - releasedChild.getTop();
+            int top = yvel < 0 || yvel == 0 && offset > 0.5f ? 0 : mScreenHeight;
+
+            mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), top);
+            invalidate();
+        }
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            super.onViewPositionChanged(changedView, left, top, dx, dy);
+            float percent = 1f - ((float)Math.abs(top) / (float)mScreenHeight);
+
+            if(mListener != null) mListener.onSlideChange(percent);
+
+            // Update the dimmer alpha
+            float alpha = percent * MAX_DIM_ALPHA;
+            mDimView.setAlpha(alpha);
+        }
+
+        @Override
+        public void onViewDragStateChanged(int state) {
+            super.onViewDragStateChanged(state);
+            switch (state){
+                case ViewDragHelper.STATE_IDLE:
+                    if(mDecorView.getTop() == 0){
+                        // State Open
+                        if(mListener != null) mListener.onOpened();
+                    }else{
+                        // State Closed
+                        if(mListener != null) mListener.onClosed();
+                    }
+                    break;
+                case ViewDragHelper.STATE_DRAGGING:
+
+                    break;
+                case ViewDragHelper.STATE_SETTLING:
+
+                    break;
+            }
         }
     };
 
+    /**
+     * The drag helper callbacks for dragging the slidr attachment from the bottom of hte screen
+     */
     private ViewDragHelper.Callback mBottomCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return false;
+            return child.getId() == mDecorView.getId();
+        }
+
+        @Override
+        public int clampViewPositionVertical(View child, int top, int dy) {
+            return clamp(top, -mScreenHeight, 0);
+        }
+
+        @Override
+        public int getViewVerticalDragRange(View child) {
+            return mScreenHeight;
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
+
+            final int height = getHeight();
+            float offset = height - releasedChild.getTop();
+            int top = yvel > 0 || yvel == 0 && offset < (mScreenHeight-0.5f) ? 0 : -mScreenHeight;
+
+            mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), top);
+            invalidate();
+        }
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            super.onViewPositionChanged(changedView, left, top, dx, dy);
+            float percent = 1f - ((float)Math.abs(top) / (float)mScreenHeight);
+
+            if(mListener != null) mListener.onSlideChange(percent);
+
+            // Update the dimmer alpha
+            float alpha = percent * MAX_DIM_ALPHA;
+            mDimView.setAlpha(alpha);
+        }
+
+        @Override
+        public void onViewDragStateChanged(int state) {
+            super.onViewDragStateChanged(state);
+            switch (state){
+                case ViewDragHelper.STATE_IDLE:
+                    if(mDecorView.getTop() == 0){
+                        // State Open
+                        if(mListener != null) mListener.onOpened();
+                    }else{
+                        // State Closed
+                        if(mListener != null) mListener.onClosed();
+                    }
+                    break;
+                case ViewDragHelper.STATE_DRAGGING:
+
+                    break;
+                case ViewDragHelper.STATE_SETTLING:
+
+                    break;
+            }
         }
     };
 

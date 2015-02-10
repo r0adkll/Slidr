@@ -1,6 +1,6 @@
 
 local.properties
-Slidr.iml
+*.iml
 .idea/libraries
 .idea/encodings.xml
 .idea/compiler.xml

@@ -54,6 +54,7 @@ public class Slidr {
         // Setup the slider panel and attach it to the decor
         final SliderPanel panel = new SliderPanel(activity, oldScreen);
         panel.setId(R.id.slidable_panel);
+        oldScreen.setId(R.id.slidable_content);
         panel.addView(oldScreen);
         decorView.addView(panel, 0);
 
@@ -118,6 +119,7 @@ public class Slidr {
         // Setup the slider panel and attach it to the decor
         final SliderPanel panel = new SliderPanel(activity, oldScreen, config);
         panel.setId(R.id.slidable_panel);
+        oldScreen.setId(R.id.slidable_content);
         panel.addView(oldScreen);
         decorView.addView(panel, 0);
 
