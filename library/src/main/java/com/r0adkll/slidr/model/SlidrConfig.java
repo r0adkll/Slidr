@@ -13,6 +13,7 @@ public class SlidrConfig {
     private SlidrPosition position = SlidrPosition.LEFT;
     private float touchSize = -1f;
     private float sensitivity = 1f;
+    private SlidrListener listener;
 
     /**
      * Hidden Constructor
@@ -70,6 +71,10 @@ public class SlidrConfig {
         return sensitivity;
     }
 
+    public SlidrListener getListener(){
+        return listener;
+    }
+
     /**
      * Return whether or not the set status bar colors are valid
      * @return
@@ -112,6 +117,11 @@ public class SlidrConfig {
 
         public Builder sensitivity(float sensitivity){
             config.sensitivity = sensitivity;
+            return this;
+        }
+
+        public Builder listener(SlidrListener listener){
+            config.listener = listener;
             return this;
         }
 

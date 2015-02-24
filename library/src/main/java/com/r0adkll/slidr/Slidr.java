@@ -130,12 +130,20 @@ public class Slidr {
 
             @Override
             public void onClosed() {
+                if(config.getListener() != null){
+                    config.getListener().onSlideClosed();
+                }
+
                 activity.finish();
                 activity.overridePendingTransition(0, 0);
             }
 
             @Override
-            public void onOpened() {}
+            public void onOpened() {
+                if(config.getListener() != null){
+                    config.getListener().onSlideOpened();
+                }
+            }
 
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
@@ -149,6 +157,10 @@ public class Slidr {
                             config.getSecondaryColor());
 
                     activity.getWindow().setStatusBarColor(newColor);
+                }
+
+                if(config.getListener() != null){
+                    config.getListener().onSlideChange(percent);
                 }
             }
         });
