@@ -71,6 +71,12 @@ public class SlidrConfig {
         return sensitivity;
     }
 
+    /**
+     * Get the slidr listener set by the user to respond to certain events in the sliding
+     * mechanism.
+     *
+     * @return      the slidr listener
+     */
     public SlidrListener getListener(){
         return listener;
     }

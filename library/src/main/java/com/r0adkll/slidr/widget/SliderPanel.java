@@ -242,6 +242,7 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
+            if(mListener != null) mListener.onStateChanged(state);
             switch (state){
                 case ViewDragHelper.STATE_IDLE:
                     if(mDecorView.getLeft() == 0){
@@ -311,6 +312,7 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
+            if(mListener != null) mListener.onStateChanged(state);
             switch (state){
                 case ViewDragHelper.STATE_IDLE:
                     if(mDecorView.getLeft() == 0){
@@ -378,6 +380,7 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
+            if(mListener != null) mListener.onStateChanged(state);
             switch (state){
                 case ViewDragHelper.STATE_IDLE:
                     if(mDecorView.getTop() == 0){
@@ -444,6 +447,7 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
+            if(mListener != null) mListener.onStateChanged(state);
             switch (state){
                 case ViewDragHelper.STATE_IDLE:
                     if(mDecorView.getTop() == 0){
@@ -482,6 +486,7 @@ public class SliderPanel extends FrameLayout {
      * whenever the panel is closed or opened
      */
     public static interface OnPanelSlideListener{
+        public void onStateChanged(int state);
         public void onClosed();
         public void onOpened();
         public void onSlideChange(float percent);

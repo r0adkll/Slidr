@@ -10,6 +10,18 @@ package com.r0adkll.slidr.model;
  */
 public interface SlidrListener {
 
+    /**
+     * This is called when the {@link android.support.v4.widget.ViewDragHelper} calls it's
+     * state change callback.
+     *
+     * @see android.support.v4.widget.ViewDragHelper#STATE_IDLE
+     * @see android.support.v4.widget.ViewDragHelper#STATE_DRAGGING
+     * @see android.support.v4.widget.ViewDragHelper#STATE_SETTLING
+     *
+     * @param state     the {@link android.support.v4.widget.ViewDragHelper} state
+     */
+    public void onSlideStateChanged(int state);
+
     public void onSlideChange(float percent);
 
     public void onSlideOpened();

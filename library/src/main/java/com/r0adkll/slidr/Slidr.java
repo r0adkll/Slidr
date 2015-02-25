@@ -64,6 +64,11 @@ public class Slidr {
             private final ArgbEvaluator mEvaluator = new ArgbEvaluator();
 
             @Override
+            public void onStateChanged(int state) {
+
+            }
+
+            @Override
             public void onClosed() {
                 activity.finish();
                 activity.overridePendingTransition(0, 0);
@@ -127,6 +132,13 @@ public class Slidr {
         panel.setOnPanelSlideListener(new SliderPanel.OnPanelSlideListener() {
 
             private final ArgbEvaluator mEvaluator = new ArgbEvaluator();
+
+            @Override
+            public void onStateChanged(int state) {
+                if(config.getListener() != null){
+                    config.getListener().onSlideStateChanged(state);
+                }
+            }
 
             @Override
             public void onClosed() {
