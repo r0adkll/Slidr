@@ -87,12 +87,11 @@ Then in the layout of your activity you must give it a background like this;
 ```
 	
 ## Including in your project 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity)
 
 Include this line in your gradle build file:
 
 ```groovy
-compile 'com.r0adkll:slidableactivity:{latest_version}'
+compile 'com.r0adkll:slidableactivity:2.0.2'
 ```
 	
 ## Author
