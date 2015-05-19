@@ -10,12 +10,12 @@ import android.graphics.Color;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.widget.ViewDragHelper;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.r0adkll.slidr.model.SlidrConfig;
+
 import static com.r0adkll.slidr.model.SlidrPosition.*;
 
 /**
@@ -25,20 +25,20 @@ import static com.r0adkll.slidr.model.SlidrPosition.*;
  */
 public class SliderPanel extends FrameLayout {
 
-    /****************************************************
-     *
+    /**
+     * *************************************************
+     * <p/>
      * Constants
-     *
      */
 
     private static final int MIN_FLING_VELOCITY = 400; // dips per second
 
     private static final float MAX_DIM_ALPHA = 0.8f; // 80% black alpha shade
 
-    /****************************************************
-     *
+    /**
+     * *************************************************
+     * <p/>
      * Variables
-     *
      */
 
     private int mScreenWidth;
@@ -63,7 +63,7 @@ public class SliderPanel extends FrameLayout {
         init();
     }
 
-    public SliderPanel(Context context, View decorView, SlidrConfig config){
+    public SliderPanel(Context context, View decorView, SlidrConfig config) {
         super(context);
         mDecorView = decorView;
         mConfig = config;
@@ -72,19 +72,19 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * Set the panel slide listener that gets called based on slider changes
+     *
      * @param listener
      */
-    public void setOnPanelSlideListener(OnPanelSlideListener listener){
+    public void setOnPanelSlideListener(OnPanelSlideListener listener) {
         mListener = listener;
     }
 
     /**
      * Initialize the slider panel
-     *
+     * <p/>
      * TODO: Based on SlidrPosition configure the ViewDragHelper to the appropriate position.
-     *
      */
-    private void init(){
+    private void init() {
         mScreenWidth = getResources().getDisplayMetrics().widthPixels;
 
         final float density = getResources().getDisplayMetrics().density;
@@ -92,7 +92,7 @@ public class SliderPanel extends FrameLayout {
 
         ViewDragHelper.Callback callback;
         int position;
-        switch (mConfig.getPosition()){
+        switch (mConfig.getPosition()) {
             case LEFT:
                 callback = mLeftCallback;
                 position = ViewDragHelper.EDGE_LEFT;
@@ -143,16 +143,21 @@ public class SliderPanel extends FrameLayout {
 
     }
 
-    /**********************************************************
-     *
+    /**
+     * *******************************************************
+     * <p/>
      * Touch Methods
-     *
      */
 
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        final boolean interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev);
+        try {
+            final boolean interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev);
+        } catch (Exception e) {
+            //maybe need to add a print error for the error statement.
+            return false;
+        }
         return interceptForDrag && !mIsLocked;
     }
 
@@ -160,7 +165,7 @@ public class SliderPanel extends FrameLayout {
     public boolean onTouchEvent(MotionEvent event) {
         try {
             mDragHelper.processTouchEvent(event);
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             return false;
         }
 
@@ -171,7 +176,7 @@ public class SliderPanel extends FrameLayout {
     @Override
     public void computeScroll() {
         super.computeScroll();
-        if(mDragHelper.continueSettling(true)){
+        if (mDragHelper.continueSettling(true)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -179,7 +184,7 @@ public class SliderPanel extends FrameLayout {
     /**
      * Lock this sliding panel to ignore touch inputs.
      */
-    public void lock(){
+    public void lock() {
         mDragHelper.cancel();
         mIsLocked = true;
     }
@@ -187,7 +192,7 @@ public class SliderPanel extends FrameLayout {
     /**
      * Unlock this sliding panel to listen to touch inputs.
      */
-    public void unlock(){
+    public void unlock() {
         mDragHelper.cancel();
         mIsLocked = false;
     }
@@ -195,8 +200,6 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * The drag helper callback interface for the Left position
-     *
-     *
      */
     private ViewDragHelper.Callback mLeftCallback = new ViewDragHelper.Callback() {
 
@@ -230,9 +233,9 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            float percent = 1f - ((float)left / (float)mScreenWidth);
+            float percent = 1f - ((float) left / (float) mScreenWidth);
 
-            if(mListener != null) mListener.onSlideChange(percent);
+            if (mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
             float alpha = percent * MAX_DIM_ALPHA;
@@ -242,15 +245,15 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
-            if(mListener != null) mListener.onStateChanged(state);
-            switch (state){
+            if (mListener != null) mListener.onStateChanged(state);
+            switch (state) {
                 case ViewDragHelper.STATE_IDLE:
-                    if(mDecorView.getLeft() == 0){
+                    if (mDecorView.getLeft() == 0) {
                         // State Open
-                        if(mListener != null) mListener.onOpened();
-                    }else{
+                        if (mListener != null) mListener.onOpened();
+                    } else {
                         // State Closed
-                        if(mListener != null) mListener.onClosed();
+                        if (mListener != null) mListener.onClosed();
                     }
                     break;
                 case ViewDragHelper.STATE_DRAGGING:
@@ -266,8 +269,6 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * The drag helper callbacks for dragging the slidr attachment from the right of the screen
-     *
-     *
      */
     private ViewDragHelper.Callback mRightCallback = new ViewDragHelper.Callback() {
         @Override
@@ -300,9 +301,9 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            float percent = 1f - ((float)Math.abs(left) / (float)mScreenWidth);
+            float percent = 1f - ((float) Math.abs(left) / (float) mScreenWidth);
 
-            if(mListener != null) mListener.onSlideChange(percent);
+            if (mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
             float alpha = percent * MAX_DIM_ALPHA;
@@ -312,15 +313,15 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
-            if(mListener != null) mListener.onStateChanged(state);
-            switch (state){
+            if (mListener != null) mListener.onStateChanged(state);
+            switch (state) {
                 case ViewDragHelper.STATE_IDLE:
-                    if(mDecorView.getLeft() == 0){
+                    if (mDecorView.getLeft() == 0) {
                         // State Open
-                        if(mListener != null) mListener.onOpened();
-                    }else{
+                        if (mListener != null) mListener.onOpened();
+                    } else {
                         // State Closed
-                        if(mListener != null) mListener.onClosed();
+                        if (mListener != null) mListener.onClosed();
                     }
                     break;
                 case ViewDragHelper.STATE_DRAGGING:
@@ -335,7 +336,6 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * The drag helper callbacks for dragging the slidr attachment from the top of the screen
-     *
      */
     private ViewDragHelper.Callback mTopCallback = new ViewDragHelper.Callback() {
         @Override
@@ -368,9 +368,9 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            float percent = 1f - ((float)Math.abs(top) / (float)mScreenHeight);
+            float percent = 1f - ((float) Math.abs(top) / (float) mScreenHeight);
 
-            if(mListener != null) mListener.onSlideChange(percent);
+            if (mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
             float alpha = percent * MAX_DIM_ALPHA;
@@ -380,15 +380,15 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
-            if(mListener != null) mListener.onStateChanged(state);
-            switch (state){
+            if (mListener != null) mListener.onStateChanged(state);
+            switch (state) {
                 case ViewDragHelper.STATE_IDLE:
-                    if(mDecorView.getTop() == 0){
+                    if (mDecorView.getTop() == 0) {
                         // State Open
-                        if(mListener != null) mListener.onOpened();
-                    }else{
+                        if (mListener != null) mListener.onOpened();
+                    } else {
                         // State Closed
-                        if(mListener != null) mListener.onClosed();
+                        if (mListener != null) mListener.onClosed();
                     }
                     break;
                 case ViewDragHelper.STATE_DRAGGING:
@@ -426,7 +426,7 @@ public class SliderPanel extends FrameLayout {
 
             final int height = getHeight();
             float offset = height - releasedChild.getTop();
-            int top = yvel > 0 || yvel == 0 && offset < (mScreenHeight-0.5f) ? 0 : -mScreenHeight;
+            int top = yvel > 0 || yvel == 0 && offset < (mScreenHeight - 0.5f) ? 0 : -mScreenHeight;
 
             mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), top);
             invalidate();
@@ -435,9 +435,9 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
-            float percent = 1f - ((float)Math.abs(top) / (float)mScreenHeight);
+            float percent = 1f - ((float) Math.abs(top) / (float) mScreenHeight);
 
-            if(mListener != null) mListener.onSlideChange(percent);
+            if (mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
             float alpha = percent * MAX_DIM_ALPHA;
@@ -447,15 +447,15 @@ public class SliderPanel extends FrameLayout {
         @Override
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
-            if(mListener != null) mListener.onStateChanged(state);
-            switch (state){
+            if (mListener != null) mListener.onStateChanged(state);
+            switch (state) {
                 case ViewDragHelper.STATE_IDLE:
-                    if(mDecorView.getTop() == 0){
+                    if (mDecorView.getTop() == 0) {
                         // State Open
-                        if(mListener != null) mListener.onOpened();
-                    }else{
+                        if (mListener != null) mListener.onOpened();
+                    } else {
                         // State Closed
-                        if(mListener != null) mListener.onClosed();
+                        if (mListener != null) mListener.onClosed();
                     }
                     break;
                 case ViewDragHelper.STATE_DRAGGING:
@@ -472,12 +472,12 @@ public class SliderPanel extends FrameLayout {
     /**
      * Clamp Integer values to a given range
      *
-     * @param value     the value to clamp
-     * @param min       the minimum value
-     * @param max       the maximum value
-     * @return          the clamped value
+     * @param value the value to clamp
+     * @param min   the minimum value
+     * @param max   the maximum value
+     * @return the clamped value
      */
-    public static int clamp(int value, int min, int max){
+    public static int clamp(int value, int min, int max) {
         return Math.max(min, Math.min(max, value));
     }
 
@@ -485,10 +485,13 @@ public class SliderPanel extends FrameLayout {
      * The panel sliding interface that gets called
      * whenever the panel is closed or opened
      */
-    public static interface OnPanelSlideListener{
+    public static interface OnPanelSlideListener {
         public void onStateChanged(int state);
+
         public void onClosed();
+
         public void onOpened();
+
         public void onSlideChange(float percent);
     }
 
