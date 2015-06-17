@@ -55,7 +55,7 @@ public class ViewerActivity extends ActionBarActivity {
         SlidrConfig config = new SlidrConfig.Builder()
                 .primaryColor(primary)
                 .secondaryColor(secondary)
-                .position(SlidrPosition.LEFT)
+                .position(SlidrPosition.VERTICAL)
                 .touchSize(Utils.dpToPx(this, 32))
                 .build();
 

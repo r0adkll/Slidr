@@ -20,12 +20,12 @@ public interface SlidrListener {
      *
      * @param state     the {@link android.support.v4.widget.ViewDragHelper} state
      */
-    public void onSlideStateChanged(int state);
+    void onSlideStateChanged(int state);
 
-    public void onSlideChange(float percent);
+    void onSlideChange(float percent);
 
-    public void onSlideOpened();
+    void onSlideOpened();
 
-    public void onSlideClosed();
+    void onSlideClosed();
 
 }

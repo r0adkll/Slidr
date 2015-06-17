@@ -7,5 +7,7 @@ public enum SlidrPosition {
     LEFT,
     RIGHT,
     TOP,
-    BOTTOM;
+    BOTTOM,
+    VERTICAL,
+    HORIZONTAL;
 }

@@ -1,5 +1,10 @@
 package com.r0adkll.slidr.model;
 
+import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.FloatRange;
+
 /**
  * This class contains the configuration information for all the options available in
  * this library
@@ -10,9 +15,14 @@ public class SlidrConfig {
 
     private int colorPrimary = -1;
     private int colorSecondary = -1;
-    private SlidrPosition position = SlidrPosition.LEFT;
     private float touchSize = -1f;
     private float sensitivity = 1f;
+    private int scrimColor = Color.BLACK;
+    private float scrimStartAlpha = 0.8f;
+    private float scrimEndAlpha = 0f;
+    private float velocityThreshold = 5f;
+
+    private SlidrPosition position = SlidrPosition.LEFT;
     private SlidrListener listener;
 
     /**
@@ -39,6 +49,33 @@ public class SlidrConfig {
      */
     public int getSecondaryColor(){
         return colorSecondary;
+    }
+
+    /**
+     * Get the color of the background scrim
+     *
+     * @return      the scrim color integer
+     */
+    public int getScrimColor(){
+        return scrimColor;
+    }
+
+    /**
+     * Get teh start alpha value for when the activity is not swiped at all
+     *
+     * @return      the start alpha value (0.0 to 1.0)
+     */
+    public float getScrimStartAlpha(){
+        return scrimStartAlpha;
+    }
+
+    /**
+     * Get the end alpha value for when the user almost swipes the activity off the screen
+     *
+     * @return      the end alpha value (0.0 to 1.0)
+     */
+    public float getScrimEndAlpha(){
+        return scrimEndAlpha;
     }
 
     /**
@@ -101,12 +138,12 @@ public class SlidrConfig {
             config = new SlidrConfig();
         }
 
-        public Builder primaryColor(int color){
+        public Builder primaryColor(@ColorInt int color){
             config.colorPrimary = color;
             return this;
         }
 
-        public Builder secondaryColor(int color){
+        public Builder secondaryColor(@ColorInt int color){
             config.colorSecondary = color;
             return this;
         }
@@ -123,6 +160,26 @@ public class SlidrConfig {
 
         public Builder sensitivity(float sensitivity){
             config.sensitivity = sensitivity;
+            return this;
+        }
+
+        public Builder scrimColor(@ColorInt int color){
+            config.scrimColor = color;
+            return this;
+        }
+
+        public Builder scrimStartAlpha(@FloatRange(from = 0.0, to = 1.0) float alpha){
+            config.scrimStartAlpha = alpha;
+            return this;
+        }
+
+        public Builder scrimEndAlpha(@FloatRange(from = 0.0, to = 1.0) float alpha){
+            config.scrimEndAlpha = alpha;
+            return this;
+        }
+
+        public Builder velocityThreshold(float threshold){
+            config.velocityThreshold = threshold;
             return this;
         }
 

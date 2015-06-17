@@ -25,7 +25,7 @@ import static com.r0adkll.slidr.model.SlidrPosition.*;
  */
 public class SliderPanel extends FrameLayout {
 
-    /****************************************************
+    /***********************************************************************************************
      *
      * Constants
      *
@@ -33,9 +33,7 @@ public class SliderPanel extends FrameLayout {
 
     private static final int MIN_FLING_VELOCITY = 400; // dips per second
 
-    private static final float MAX_DIM_ALPHA = 0.8f; // 80% black alpha shade
-
-    /****************************************************
+    /***********************************************************************************************
      *
      * Variables
      *
@@ -109,6 +107,10 @@ public class SliderPanel extends FrameLayout {
                 callback = mBottomCallback;
                 position = ViewDragHelper.EDGE_BOTTOM;
                 break;
+            case VERTICAL:
+                callback = mVerticalCallback;
+                position = ViewDragHelper.EDGE_TOP | ViewDragHelper.EDGE_BOTTOM;
+                break;
             default:
                 callback = mLeftCallback;
                 position = ViewDragHelper.EDGE_LEFT;
@@ -118,13 +120,12 @@ public class SliderPanel extends FrameLayout {
         mDragHelper.setMinVelocity(minVel);
         mDragHelper.setEdgeTrackingEnabled(position);
 
-
         ViewGroupCompat.setMotionEventSplittingEnabled(this, false);
 
         // Setup the dimmer view
         mDimView = new View(getContext());
-        mDimView.setBackgroundColor(Color.BLACK);
-        mDimView.setAlpha(MAX_DIM_ALPHA);
+        mDimView.setBackgroundColor(mConfig.getScrimColor());
+        mDimView.setAlpha(mConfig.getScrimStartAlpha());
 
         // Add the dimmer view to the layout
         addView(mDimView);
@@ -143,7 +144,7 @@ public class SliderPanel extends FrameLayout {
 
     }
 
-    /**********************************************************
+    /***********************************************************************************************
      *
      * Touch Methods
      *
@@ -152,7 +153,7 @@ public class SliderPanel extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        final boolean interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev);
+        boolean interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev);
         return interceptForDrag && !mIsLocked;
     }
 
@@ -191,6 +192,13 @@ public class SliderPanel extends FrameLayout {
         mDragHelper.cancel();
         mIsLocked = false;
     }
+
+
+    /***********************************************************************************************
+     *
+     * ViewDragHelper Callback classes that define how the drag helper operates
+     *
+     */
 
 
     /**
@@ -235,8 +243,7 @@ public class SliderPanel extends FrameLayout {
             if(mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
-            float alpha = percent * MAX_DIM_ALPHA;
-            mDimView.setAlpha(alpha);
+            applyScrim(percent);
         }
 
         @Override
@@ -305,8 +312,7 @@ public class SliderPanel extends FrameLayout {
             if(mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
-            float alpha = percent * MAX_DIM_ALPHA;
-            mDimView.setAlpha(alpha);
+            applyScrim(percent);
         }
 
         @Override
@@ -373,8 +379,7 @@ public class SliderPanel extends FrameLayout {
             if(mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
-            float alpha = percent * MAX_DIM_ALPHA;
-            mDimView.setAlpha(alpha);
+            applyScrim(percent);
         }
 
         @Override
@@ -440,8 +445,7 @@ public class SliderPanel extends FrameLayout {
             if(mListener != null) mListener.onSlideChange(percent);
 
             // Update the dimmer alpha
-            float alpha = percent * MAX_DIM_ALPHA;
-            mDimView.setAlpha(alpha);
+            applyScrim(percent);
         }
 
         @Override
@@ -468,6 +472,107 @@ public class SliderPanel extends FrameLayout {
         }
     };
 
+    /**
+     * The drag helper callbacks for dragging the slidr attachment in both vertical directions
+     */
+    private ViewDragHelper.Callback mVerticalCallback = new ViewDragHelper.Callback() {
+        @Override
+        public boolean tryCaptureView(View child, int pointerId) {
+            return child.getId() == mDecorView.getId();
+        }
+
+        @Override
+        public int clampViewPositionVertical(View child, int top, int dy) {
+            return clamp(top, -mScreenHeight, mScreenHeight);
+        }
+
+        @Override
+        public int getViewVerticalDragRange(View child) {
+            return mScreenHeight;
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
+
+            final int height = getHeight();
+            int top = releasedChild.getTop();
+            int settleTop = 0;
+
+            if(yvel > 0){
+
+                // Being slinged down
+                if(top > 50){
+                    settleTop = mScreenHeight;
+                }
+
+            }else if(yvel <= 0){
+                // Being slinged up
+                if(top < -50){
+                    settleTop = -mScreenHeight;
+                }
+
+            }
+
+            mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), settleTop);
+            invalidate();
+        }
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            super.onViewPositionChanged(changedView, left, top, dx, dy);
+            float percent = 1f - ((float)Math.abs(top) / (float)mScreenHeight);
+
+            if(mListener != null) mListener.onSlideChange(percent);
+
+            // Update the dimmer alpha
+            applyScrim(percent);
+        }
+
+        @Override
+        public void onViewDragStateChanged(int state) {
+            super.onViewDragStateChanged(state);
+            if(mListener != null) mListener.onStateChanged(state);
+            switch (state){
+                case ViewDragHelper.STATE_IDLE:
+                    if(mDecorView.getTop() == 0){
+                        // State Open
+                        if(mListener != null) mListener.onOpened();
+                    }else{
+                        // State Closed
+                        if(mListener != null) mListener.onClosed();
+                    }
+                    break;
+                case ViewDragHelper.STATE_DRAGGING:
+
+                    break;
+                case ViewDragHelper.STATE_SETTLING:
+
+                    break;
+            }
+        }
+    };
+
+    /***********************************************************************************************
+     *
+     * Helper Methods
+     *
+     */
+
+    /**
+     * Apply the scrim to the dim view
+     * @param percent
+     */
+    public void applyScrim(float percent){
+        float alpha = (percent * (mConfig.getScrimStartAlpha() - mConfig.getScrimEndAlpha())) + mConfig.getScrimEndAlpha();
+        mDimView.setAlpha(alpha);
+    }
+
+    /***********************************************************************************************
+     *
+     * Static methods and Interfaces
+     *
+     */
 
     /**
      * Clamp Integer values to a given range
@@ -485,11 +590,11 @@ public class SliderPanel extends FrameLayout {
      * The panel sliding interface that gets called
      * whenever the panel is closed or opened
      */
-    public static interface OnPanelSlideListener{
-        public void onStateChanged(int state);
-        public void onClosed();
-        public void onOpened();
-        public void onSlideChange(float percent);
+    public interface OnPanelSlideListener{
+        void onStateChanged(int state);
+        void onClosed();
+        void onOpened();
+        void onSlideChange(float percent);
     }
 
 }
