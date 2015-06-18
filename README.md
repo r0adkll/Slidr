@@ -46,8 +46,14 @@ public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivit
 SlidrConfig config = new SlidrConfig.Builder()
 	.primaryColor(getResources().getColor(R.color.primary)
 	.secondaryColor(getResources().getColor(R.color.secondary)
-	.position(SlidrPosition.LEFT|RIGHT|TOP|BOTTOM)
+	.position(SlidrPosition.LEFT|RIGHT|TOP|BOTTOM|VERTICAL|HORIZONTAL)
 	.sensitivity(1f)
+	.scrimColor(Color.BLACK)
+	.scrimStartAlpha(0.8f)
+	.scrimEndAlpha(0f)
+	.velocityThreshold(2400)
+	.distanceThreshold(0.25f)
+	.listener(new SlidrListener(){...})
 	.build();
 	
 Slidr.attach(this, config);
