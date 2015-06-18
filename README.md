@@ -100,7 +100,7 @@ Include this line in your gradle build file:
 compile 'com.r0adkll:slidableactivity:2.0.3'
 ```
 
-**Snapshot**: `2.0.3-SNAPSHOT`
+**Snapshot**: `2.0.4-SNAPSHOT`
 	
 ## Author
 
