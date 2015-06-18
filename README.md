@@ -93,6 +93,8 @@ Include this line in your gradle build file:
 ```groovy
 compile 'com.r0adkll:slidableactivity:2.0.2'
 ```
+
+**Snapshot**: `2.0.3-SNAPSHOT`
 	
 ## Author
 
