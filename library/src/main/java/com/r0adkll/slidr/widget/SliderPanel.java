@@ -212,8 +212,6 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * The drag helper callback interface for the Left position
-     *
-     *
      */
     private ViewDragHelper.Callback mLeftCallback = new ViewDragHelper.Callback() {
 
@@ -297,8 +295,6 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * The drag helper callbacks for dragging the slidr attachment from the right of the screen
-     *
-     *
      */
     private ViewDragHelper.Callback mRightCallback = new ViewDragHelper.Callback() {
         @Override
@@ -380,7 +376,6 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * The drag helper callbacks for dragging the slidr attachment from the top of the screen
-     *
      */
     private ViewDragHelper.Callback mTopCallback = new ViewDragHelper.Callback() {
         @Override
