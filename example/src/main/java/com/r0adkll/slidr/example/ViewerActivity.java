@@ -56,6 +56,8 @@ public class ViewerActivity extends ActionBarActivity {
                 .primaryColor(primary)
                 .secondaryColor(secondary)
                 .position(SlidrPosition.VERTICAL)
+                .velocityThreshold(2400)
+                .distanceThreshold(.25f)
                 .touchSize(Utils.dpToPx(this, 32))
                 .build();
 

@@ -495,24 +495,39 @@ public class SliderPanel extends FrameLayout {
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
-            final int height = getHeight();
             int top = releasedChild.getTop();
             int settleTop = 0;
+            int topThreshold = (int) (getHeight() * mConfig.getDistanceThreshold());
+            boolean isSideSwiping = Math.abs(xvel) > mConfig.getVelocityThreshold();
 
             if(yvel > 0){
 
                 // Being slinged down
-                if(top > 50){
+                if(Math.abs(yvel) > mConfig.getVelocityThreshold() && !isSideSwiping){
+                    settleTop = mScreenHeight;
+                }else if(top > topThreshold){
                     settleTop = mScreenHeight;
                 }
 
-            }else if(yvel <= 0){
+            }else if(yvel < 0){
                 // Being slinged up
-                if(top < -50){
+                if(Math.abs(yvel) > mConfig.getVelocityThreshold() && !isSideSwiping){
+                    settleTop = -mScreenHeight;
+                }else if(top < -topThreshold){
+                    settleTop = -mScreenHeight;
+                }
+
+            }else{
+
+                if(top > topThreshold){
+                    settleTop = mScreenHeight;
+                }else if(top < -topThreshold){
                     settleTop = -mScreenHeight;
                 }
 
             }
+
+            Log.d(SliderPanel.class.getName(), String.format("Drag view released [top: %d, velocity: (%f, %f), distanceThreshold: %d, velThreshold: %f]", top, xvel, yvel, topThreshold, mConfig.getVelocityThreshold()));
 
             mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), settleTop);
             invalidate();

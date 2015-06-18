@@ -21,6 +21,7 @@ public class SlidrConfig {
     private float scrimStartAlpha = 0.8f;
     private float scrimEndAlpha = 0f;
     private float velocityThreshold = 5f;
+    private float distanceThreshold = 0.25f;
 
     private SlidrPosition position = SlidrPosition.LEFT;
     private SlidrListener listener;
@@ -96,6 +97,26 @@ public class SlidrConfig {
      */
     public float getTouchSize(){
         return touchSize;
+    }
+
+    /**
+     * Get the velocity threshold at which the slide action is completed regardless of offset
+     * distance of the drag
+     *
+     * @return      the velocity threshold
+     */
+    public float getVelocityThreshold(){
+        return velocityThreshold;
+    }
+
+    /**
+     * Get at what % of the screen is the minimum viable distance the activity has to be dragged
+     * in-order to be slinged off the screen
+     *
+     * @return      the distant threshold as a percentage of the screen size (width or height)
+     */
+    public float getDistanceThreshold(){
+        return distanceThreshold;
     }
 
     /**
@@ -180,6 +201,11 @@ public class SlidrConfig {
 
         public Builder velocityThreshold(float threshold){
             config.velocityThreshold = threshold;
+            return this;
+        }
+
+        public Builder distanceThreshold(@FloatRange(from = .1f, to = .9f) float threshold){
+            config.distanceThreshold = threshold;
             return this;
         }
 
