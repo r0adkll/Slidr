@@ -79,8 +79,6 @@ public class SliderPanel extends FrameLayout {
     /**
      * Initialize the slider panel
      *
-     * TODO: Based on SlidrPosition configure the ViewDragHelper to the appropriate position.
-     *
      */
     private void init(){
         mScreenWidth = getResources().getDisplayMetrics().widthPixels;
@@ -110,6 +108,10 @@ public class SliderPanel extends FrameLayout {
             case VERTICAL:
                 callback = mVerticalCallback;
                 position = ViewDragHelper.EDGE_TOP | ViewDragHelper.EDGE_BOTTOM;
+                break;
+            case HORIZONTAL:
+                callback = mHorizontalCallback;
+                position = ViewDragHelper.EDGE_LEFT | ViewDragHelper.EDGE_RIGHT;
                 break;
             default:
                 callback = mLeftCallback;
@@ -234,11 +236,26 @@ public class SliderPanel extends FrameLayout {
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
-            final int width = getWidth();
-            float offset = width - releasedChild.getLeft();
-            int left = xvel < 0 || xvel == 0 && offset > 0.5f ? 0 : mScreenWidth;
+            int left = releasedChild.getLeft();
+            int settleLeft = 0;
+            int leftThreshold = (int) (getWidth() * mConfig.getDistanceThreshold());
+            boolean isVerticalSwiping = Math.abs(yvel) > mConfig.getVelocityThreshold();
 
-            mDragHelper.settleCapturedViewAt(left, releasedChild.getTop());
+            if(xvel > 0){
+
+                if(Math.abs(xvel) > mConfig.getVelocityThreshold() && !isVerticalSwiping){
+                    settleLeft = mScreenWidth;
+                }else if(left > leftThreshold){
+                    settleLeft = mScreenWidth;
+                }
+
+            }else if(xvel == 0){
+                if(left > leftThreshold){
+                    settleLeft = mScreenWidth;
+                }
+            }
+
+            mDragHelper.settleCapturedViewAt(settleLeft, releasedChild.getTop());
             invalidate();
         }
 
@@ -303,11 +320,26 @@ public class SliderPanel extends FrameLayout {
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
-            final int width = getWidth();
-            float offset = width + releasedChild.getLeft();
-            int left = xvel > 0 || xvel == 0 && offset < (mScreenWidth - 0.5f) ? 0 : -mScreenWidth;
+            int left = releasedChild.getLeft();
+            int settleLeft = 0;
+            int leftThreshold = (int) (getWidth() * mConfig.getDistanceThreshold());
+            boolean isVerticalSwiping = Math.abs(yvel) > mConfig.getVelocityThreshold();
 
-            mDragHelper.settleCapturedViewAt(left, releasedChild.getTop());
+            if(xvel < 0){
+
+                if(Math.abs(xvel) > mConfig.getVelocityThreshold() && !isVerticalSwiping){
+                    settleLeft = -mScreenWidth;
+                }else if(left < -leftThreshold){
+                    settleLeft = -mScreenWidth;
+                }
+
+            }else if(xvel == 0){
+                if(left < -leftThreshold){
+                    settleLeft = -mScreenWidth;
+                }
+            }
+
+            mDragHelper.settleCapturedViewAt(settleLeft, releasedChild.getTop());
             invalidate();
         }
 
@@ -370,11 +402,24 @@ public class SliderPanel extends FrameLayout {
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
-            final int height = getHeight();
-            float offset = height - releasedChild.getTop();
-            int top = yvel < 0 || yvel == 0 && offset > 0.5f ? 0 : mScreenHeight;
+            int top = releasedChild.getTop();
+            int settleTop = 0;
+            int topThreshold = (int) (getHeight() * mConfig.getDistanceThreshold());
+            boolean isSideSwiping = Math.abs(xvel) > mConfig.getVelocityThreshold();
 
-            mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), top);
+            if(yvel > 0){
+                if(Math.abs(yvel) > mConfig.getVelocityThreshold() && !isSideSwiping){
+                    settleTop = mScreenHeight;
+                }else if(top > topThreshold){
+                    settleTop = mScreenHeight;
+                }
+            }else if(yvel == 0){
+                if(top > topThreshold){
+                    settleTop = mScreenHeight;
+                }
+            }
+
+            mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), settleTop);
             invalidate();
         }
 
@@ -436,11 +481,24 @@ public class SliderPanel extends FrameLayout {
         public void onViewReleased(View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
-            final int height = getHeight();
-            float offset = height - releasedChild.getTop();
-            int top = yvel > 0 || yvel == 0 && offset < (mScreenHeight-0.5f) ? 0 : -mScreenHeight;
+            int top = releasedChild.getTop();
+            int settleTop = 0;
+            int topThreshold = (int) (getHeight() * mConfig.getDistanceThreshold());
+            boolean isSideSwiping = Math.abs(xvel) > mConfig.getVelocityThreshold();
 
-            mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), top);
+            if(yvel < 0){
+                if(Math.abs(yvel) > mConfig.getVelocityThreshold() && !isSideSwiping){
+                    settleTop = -mScreenHeight;
+                }else if(top < -topThreshold){
+                    settleTop = -mScreenHeight;
+                }
+            }else if(yvel == 0){
+                if(top < -topThreshold){
+                    settleTop = -mScreenHeight;
+                }
+            }
+
+            mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), settleTop);
             invalidate();
         }
 
@@ -534,8 +592,6 @@ public class SliderPanel extends FrameLayout {
 
             }
 
-            Log.d(SliderPanel.class.getName(), String.format("Drag view released [top: %d, velocity: (%f, %f), distanceThreshold: %d, velThreshold: %f]", top, xvel, yvel, topThreshold, mConfig.getVelocityThreshold()));
-
             mDragHelper.settleCapturedViewAt(releasedChild.getLeft(), settleTop);
             invalidate();
         }
@@ -558,6 +614,97 @@ public class SliderPanel extends FrameLayout {
             switch (state){
                 case ViewDragHelper.STATE_IDLE:
                     if(mDecorView.getTop() == 0){
+                        // State Open
+                        if(mListener != null) mListener.onOpened();
+                    }else{
+                        // State Closed
+                        if(mListener != null) mListener.onClosed();
+                    }
+                    break;
+                case ViewDragHelper.STATE_DRAGGING:
+
+                    break;
+                case ViewDragHelper.STATE_SETTLING:
+
+                    break;
+            }
+        }
+    };
+
+    /**
+     * The drag helper callbacks for dragging the slidr attachment in both horizontal directions
+     */
+    private ViewDragHelper.Callback mHorizontalCallback = new ViewDragHelper.Callback() {
+        @Override
+        public boolean tryCaptureView(View child, int pointerId) {
+            return child.getId() == mDecorView.getId();
+        }
+
+        @Override
+        public int clampViewPositionHorizontal(View child, int left, int dx) {
+            return clamp(left, -mScreenWidth, mScreenWidth);
+        }
+
+        @Override
+        public int getViewHorizontalDragRange(View child) {
+            return mScreenWidth;
+        }
+
+        @Override
+        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+            super.onViewReleased(releasedChild, xvel, yvel);
+
+            int left = releasedChild.getLeft();
+            int settleLeft = 0;
+            int leftThreshold = (int) (getWidth() * mConfig.getDistanceThreshold());
+            boolean isVerticalSwiping = Math.abs(yvel) > mConfig.getVelocityThreshold();
+
+            if(xvel > 0){
+
+                if(Math.abs(xvel) > mConfig.getVelocityThreshold() && !isVerticalSwiping){
+                    settleLeft = mScreenWidth;
+                }else if(left > leftThreshold){
+                    settleLeft = mScreenWidth;
+                }
+
+            }else if(xvel < 0){
+
+                if(Math.abs(xvel) > mConfig.getVelocityThreshold() && !isVerticalSwiping){
+                    settleLeft = -mScreenWidth;
+                }else if(left < -leftThreshold){
+                    settleLeft = -mScreenWidth;
+                }
+
+            }else{
+                if(left > leftThreshold){
+                    settleLeft = mScreenWidth;
+                }else if(left < -leftThreshold){
+                    settleLeft = -mScreenWidth;
+                }
+            }
+
+            mDragHelper.settleCapturedViewAt(settleLeft, releasedChild.getTop());
+            invalidate();
+        }
+
+        @Override
+        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+            super.onViewPositionChanged(changedView, left, top, dx, dy);
+            float percent = 1f - ((float)Math.abs(left) / (float)mScreenWidth);
+
+            if(mListener != null) mListener.onSlideChange(percent);
+
+            // Update the dimmer alpha
+            applyScrim(percent);
+        }
+
+        @Override
+        public void onViewDragStateChanged(int state) {
+            super.onViewDragStateChanged(state);
+            if(mListener != null) mListener.onStateChanged(state);
+            switch (state){
+                case ViewDragHelper.STATE_IDLE:
+                    if(mDecorView.getLeft() == 0){
                         // State Open
                         if(mListener != null) mListener.onOpened();
                     }else{

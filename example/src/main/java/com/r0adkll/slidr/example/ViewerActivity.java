@@ -2,6 +2,7 @@ package com.r0adkll.slidr.example;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -20,7 +21,7 @@ import butterknife.InjectView;
 /**
  * Created by r0adkll on 1/11/15.
  */
-public class ViewerActivity extends ActionBarActivity {
+public class ViewerActivity extends AppCompatActivity {
 
     public static final String EXTRA_OS = "extra_os_version";
 
@@ -52,10 +53,13 @@ public class ViewerActivity extends ActionBarActivity {
         int secondary = getResources().getColor(R.color.accent);
 
         // Build the slidr config
+        int numPositions = SlidrPosition.values().length;
+        SlidrPosition position = SlidrPosition.values()[Utils.getRandom().nextInt(numPositions)];
+
         SlidrConfig config = new SlidrConfig.Builder()
                 .primaryColor(primary)
                 .secondaryColor(secondary)
-                .position(SlidrPosition.VERTICAL)
+                .position(position)
                 .velocityThreshold(2400)
                 .distanceThreshold(.25f)
                 .touchSize(Utils.dpToPx(this, 32))
