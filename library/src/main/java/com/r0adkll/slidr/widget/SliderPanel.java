@@ -153,7 +153,14 @@ public class SliderPanel extends FrameLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        boolean interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev);
+        boolean interceptForDrag;
+
+        // Fix for pull request #13 and issue #12
+        try {
+            interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev);
+        }catch (Exception e){
+            interceptForDrag = false;
+        }
         return interceptForDrag && !mIsLocked;
     }
 
