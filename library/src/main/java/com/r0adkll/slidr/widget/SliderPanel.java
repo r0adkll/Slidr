@@ -152,7 +152,6 @@ public class SliderPanel extends FrameLayout {
      *
      */
 
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         boolean interceptForDrag;

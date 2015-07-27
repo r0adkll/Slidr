@@ -195,4 +195,74 @@ public class Slidr {
 
     }
 
+    /**
+     * Replace a viewgroup with the sliding mechanism
+     *
+     * @param view
+     * @param config
+     * @return
+     */
+    public static SlidrInterface replace(final ViewGroup view, final SlidrConfig config){
+
+        ViewGroup parent = (ViewGroup)view.getParent();
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        parent.removeView(view);
+
+        // Setup the slider panel and attach it to the decor
+        final SliderPanel panel = new SliderPanel(view.getContext(), view, config);
+        panel.setId(view.getId());
+        view.setId(R.id.slidable_panel);
+        panel.addView(view);
+        parent.addView(panel, params);
+
+        // Set the panel slide listener for when it becomes closed or opened
+        panel.setOnPanelSlideListener(new SliderPanel.OnPanelSlideListener() {
+
+            @Override
+            public void onStateChanged(int state) {
+                if(config.getListener() != null){
+                    config.getListener().onSlideStateChanged(state);
+                }
+            }
+
+            @Override
+            public void onClosed() {
+                if(config.getListener() != null){
+                    config.getListener().onSlideClosed();
+                }
+            }
+
+            @Override
+            public void onOpened() {
+                if(config.getListener() != null){
+                    config.getListener().onSlideOpened();
+                }
+            }
+
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onSlideChange(float percent) {
+                if(config.getListener() != null){
+                    config.getListener().onSlideChange(percent);
+                }
+            }
+        });
+
+        // Setup the lock interface
+        SlidrInterface slidrInterface = new SlidrInterface() {
+            @Override
+            public void lock() {
+                panel.lock();
+            }
+
+            @Override
+            public void unlock() {
+                panel.unlock();
+            }
+        };
+
+        // Return the lock interface
+        return slidrInterface;
+    }
+
 }
