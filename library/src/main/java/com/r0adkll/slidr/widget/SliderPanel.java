@@ -189,7 +189,7 @@ public class SliderPanel extends FrameLayout {
      * Lock this sliding panel to ignore touch inputs.
      */
     public void lock(){
-        mDragHelper.cancel();
+        mDragHelper.abort();
         mIsLocked = true;
     }
 
@@ -197,7 +197,7 @@ public class SliderPanel extends FrameLayout {
      * Unlock this sliding panel to listen to touch inputs.
      */
     public void unlock(){
-        mDragHelper.cancel();
+        mDragHelper.abort();
         mIsLocked = false;
     }
 
