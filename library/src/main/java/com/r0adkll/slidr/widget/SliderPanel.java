@@ -16,6 +16,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrPosition;
+
 import static com.r0adkll.slidr.model.SlidrPosition.*;
 
 /**
@@ -46,6 +48,7 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper mDragHelper;
     private OnPanelSlideListener mListener;
     private boolean mIsLocked = false;
+    private boolean mIsEdgeGrabbed = false;
 
     private SlidrConfig mConfig;
 
@@ -155,14 +158,23 @@ public class SliderPanel extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         boolean interceptForDrag;
+        boolean interceptWithEdge = true;
+
+        if(mConfig.isEdgeOnly()){
+            interceptWithEdge = canDragFromEdge(ev);
+            mIsEdgeGrabbed = interceptWithEdge;
+        }
 
         // Fix for pull request #13 and issue #12
         try {
             interceptForDrag = mDragHelper.shouldInterceptTouchEvent(ev);
-        }catch (Exception e){
+        } catch (Exception e) {
             interceptForDrag = false;
         }
-        return interceptForDrag && !mIsLocked;
+
+        boolean value = interceptForDrag && interceptWithEdge && !mIsLocked;
+        Log.d("SP", "onInterceptTouchEvent() -> " + value);
+        return value;
     }
 
     @Override
@@ -201,6 +213,26 @@ public class SliderPanel extends FrameLayout {
         mIsLocked = false;
     }
 
+    private boolean canDragFromEdge(MotionEvent ev){
+        float x = ev.getX();
+        float y = ev.getY();
+
+        switch (mConfig.getPosition()){
+            case LEFT:
+                return x < mConfig.getEdgeSize(getWidth());
+            case RIGHT:
+                return x > getWidth() - mConfig.getEdgeSize(getWidth());
+            case BOTTOM:
+                return y > getHeight() - mConfig.getEdgeSize(getHeight());
+            case TOP:
+                return y < mConfig.getEdgeSize(getHeight());
+            case HORIZONTAL:
+                return x < mConfig.getEdgeSize(getWidth()) || x > getWidth() - mConfig.getEdgeSize(getWidth());
+            case VERTICAL:
+                return y < mConfig.getEdgeSize(getHeight()) || y > getHeight() - mConfig.getEdgeSize(getHeight());
+        }
+        return false;
+    }
 
     /***********************************************************************************************
      *
@@ -216,7 +248,7 @@ public class SliderPanel extends FrameLayout {
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == mDecorView.getId();
+            return child.getId() == mDecorView.getId() && !mIsLocked && (mConfig.isEdgeOnly() ? mIsEdgeGrabbed : true);
         }
 
         @Override
@@ -298,7 +330,7 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper.Callback mRightCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == mDecorView.getId();
+            return child.getId() == mDecorView.getId() && !mIsLocked && (mConfig.isEdgeOnly() ? mIsEdgeGrabbed : true);
         }
 
         @Override
@@ -379,7 +411,7 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper.Callback mTopCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == mDecorView.getId();
+            return child.getId() == mDecorView.getId() && !mIsLocked && (mConfig.isEdgeOnly() ? mIsEdgeGrabbed : true);
         }
 
         @Override
@@ -458,7 +490,7 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper.Callback mBottomCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == mDecorView.getId();
+            return child.getId() == mDecorView.getId() && !mIsLocked && (mConfig.isEdgeOnly() ? mIsEdgeGrabbed : true);
         }
 
         @Override
@@ -537,7 +569,7 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper.Callback mVerticalCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == mDecorView.getId();
+            return child.getId() == mDecorView.getId() && !mIsLocked && (mConfig.isEdgeOnly() ? mIsEdgeGrabbed : true);
         }
 
         @Override
@@ -631,7 +663,7 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper.Callback mHorizontalCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == mDecorView.getId();
+            return child.getId() == mDecorView.getId() && !mIsLocked && (mConfig.isEdgeOnly() ? mIsEdgeGrabbed : true);
         }
 
         @Override

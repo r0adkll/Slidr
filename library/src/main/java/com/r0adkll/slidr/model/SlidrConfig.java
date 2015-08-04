@@ -22,6 +22,8 @@ public class SlidrConfig {
     private float scrimEndAlpha = 0f;
     private float velocityThreshold = 5f;
     private float distanceThreshold = 0.25f;
+    private boolean edgeOnly = false;
+    private float edgeSize = 0.18f;
 
     private SlidrPosition position = SlidrPosition.LEFT;
     private SlidrListener listener;
@@ -148,6 +150,25 @@ public class SlidrConfig {
     }
 
     /**
+     * Has the user configured slidr to only catch at the edge of the screen ?
+     *
+     * @return      true if is edge capture only
+     */
+    public boolean isEdgeOnly() {
+        return edgeOnly;
+    }
+
+    /**
+     * Get the size of the edge field that is catchable
+     *
+     * @see #isEdgeOnly()
+     * @return      the size of the edge that is grabable
+     */
+    public float getEdgeSize(float size) {
+        return edgeSize * size;
+    }
+
+    /**
      * The Builder for this configuration class. This is the only way to create a
      * configuration
      */
@@ -206,6 +227,16 @@ public class SlidrConfig {
 
         public Builder distanceThreshold(@FloatRange(from = .1f, to = .9f) float threshold){
             config.distanceThreshold = threshold;
+            return this;
+        }
+
+        public Builder edge(boolean flag){
+            config.edgeOnly = flag;
+            return this;
+        }
+
+        public Builder edgeSize(@FloatRange(from = 0f, to = 1f) float edgeSize){
+            config.edgeSize = edgeSize;
             return this;
         }
 
