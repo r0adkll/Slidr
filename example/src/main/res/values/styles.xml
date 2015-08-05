@@ -12,7 +12,7 @@
 
     <style name="Theme.Slidr.Slidable" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/accent</item>
+        <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="android:colorAccent">@color/accent</item>
         <item name="android:textColorPrimary">@color/textPrimary</item>
         <item name="android:textColorSecondary">@color/textSecondary</item>
@@ -21,6 +21,10 @@
         <!-- These values must be set for this mechanism to work -->
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
     </style>
 
     <style name="ActionBarThemeOverlay" parent="">

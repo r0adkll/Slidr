@@ -7,13 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.r0adkll.deadskunk.utils.Utils;
 import com.r0adkll.deadskunk.views.AspectRatioImageView;
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.example.model.AndroidOS;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
-import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -39,6 +39,8 @@ public class ViewerActivity extends AppCompatActivity {
     TextView mVersion;
     @InjectView(R.id.sdk)
     TextView mSdk;
+    @InjectView(R.id.position)
+    TextView mPosition;
 
     private AndroidOS mOS;
 
@@ -50,16 +52,17 @@ public class ViewerActivity extends AppCompatActivity {
 
         // Get the status bar colors to interpolate between
         int primary = getResources().getColor(R.color.primaryDark);
-        int secondary = getResources().getColor(R.color.accent);
+        int secondary = getResources().getColor(R.color.transparent);
 
         // Build the slidr config
         int numPositions = SlidrPosition.values().length;
         SlidrPosition position = SlidrPosition.values()[Utils.getRandom().nextInt(numPositions)];
+        mPosition.setText(position.name());
 
         SlidrConfig config = new SlidrConfig.Builder()
                 .primaryColor(primary)
                 .secondaryColor(secondary)
-                .position(SlidrPosition.LEFT)
+                .position(position)
                 .velocityThreshold(2400)
                 .distanceThreshold(.25f)
                 .edge(true)
@@ -83,8 +86,9 @@ public class ViewerActivity extends AppCompatActivity {
         mSdk.setText(String.valueOf(mOS.sdk_int));
 
         // Load header image
-        Picasso.with(this)
+        Glide.with(this)
                 .load(mOS.image_url)
+                .crossFade()
                 .into(mCover);
     }
 
