@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/r0adkll/Slidr.png?label=ready&title=Ready)](https://waffle.io/r0adkll/Slidr)
 Slidr
 ================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364)
