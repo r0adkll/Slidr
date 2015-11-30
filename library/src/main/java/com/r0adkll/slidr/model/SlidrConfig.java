@@ -43,6 +43,10 @@ public class SlidrConfig {
         return colorPrimary;
     }
 
+	public void setPrimaryColor(@ColorInt int colorPrimary){
+		this.colorPrimary = colorPrimary;
+	}
+
     /**
      * Get the secondary color that the slider will interpolatel That is the color of the Activity
      * that you are making slidable
@@ -53,6 +57,10 @@ public class SlidrConfig {
         return colorSecondary;
     }
 
+	public void setSecondaryColor(@ColorInt int colorSecondary){
+		this.colorSecondary = colorSecondary;
+	}
+
     /**
      * Get the color of the background scrim
      *
@@ -61,6 +69,10 @@ public class SlidrConfig {
     public int getScrimColor(){
         return scrimColor;
     }
+
+	public void setScrimColor(@ColorInt int scrimColor){
+		this.scrimColor = scrimColor;
+	}
 
     /**
      * Get teh start alpha value for when the activity is not swiped at all
@@ -71,6 +83,10 @@ public class SlidrConfig {
         return scrimStartAlpha;
     }
 
+	public void setScrimStartAlpha(@FloatRange(from = 0.0, to = 1.0) float scrimStartAlpha){
+		this.scrimStartAlpha = scrimStartAlpha;
+	}
+
     /**
      * Get the end alpha value for when the user almost swipes the activity off the screen
      *
@@ -79,6 +95,10 @@ public class SlidrConfig {
     public float getScrimEndAlpha(){
         return scrimEndAlpha;
     }
+
+	public void setScrimEndAlpha(@FloatRange(from = 0.0, to = 1.0) float scrimEndAlpha){
+		this.scrimEndAlpha = scrimEndAlpha;
+	}
 
     /**
      * Get the position of the slidable mechanism for this configuration. This is the position on
@@ -90,6 +110,10 @@ public class SlidrConfig {
         return position;
     }
 
+	public void setPosition(SlidrPosition position){
+		this.position = position;
+	}
+
     /**
      * Get the touch 'width' to be used in the gesture detection. This value should incorporate with
      * the device's touch slop
@@ -99,6 +123,10 @@ public class SlidrConfig {
     public float getTouchSize(){
         return touchSize;
     }
+
+	public void setTouchSize(float touchSize){
+		this.touchSize = touchSize;
+	}
 
     /**
      * Get the velocity threshold at which the slide action is completed regardless of offset
@@ -110,6 +138,10 @@ public class SlidrConfig {
         return velocityThreshold;
     }
 
+	public void setVelocityThreshold(float velocityThreshold){
+		this.velocityThreshold = velocityThreshold;
+	}
+
     /**
      * Get at what % of the screen is the minimum viable distance the activity has to be dragged
      * in-order to be slinged off the screen
@@ -119,6 +151,10 @@ public class SlidrConfig {
     public float getDistanceThreshold(){
         return distanceThreshold;
     }
+
+	public void setDistanceThreshold(@FloatRange(from = .1f, to = .9f) float distanceThreshold){
+		this.distanceThreshold = distanceThreshold;
+	}
 
     /**
      * Get the touch sensitivity set in the {@link android.support.v4.widget.ViewDragHelper} when
@@ -130,6 +166,10 @@ public class SlidrConfig {
         return sensitivity;
     }
 
+	public void setSensitivity(float sensitivity){
+		this.sensitivity = sensitivity;
+	}
+
     /**
      * Get the slidr listener set by the user to respond to certain events in the sliding
      * mechanism.
@@ -139,6 +179,10 @@ public class SlidrConfig {
     public SlidrListener getListener(){
         return listener;
     }
+
+	public void setListener(SlidrListener listener){
+		this.listener = listener;
+	}
 
     /**
      * Return whether or not the set status bar colors are valid
@@ -157,6 +201,10 @@ public class SlidrConfig {
         return edgeOnly;
     }
 
+	public void setEdgeOnly(boolean edgeOnly){
+		this.edgeOnly = edgeOnly;
+	}
+
     /**
      * Get the size of the edge field that is catchable
      *
@@ -166,6 +214,10 @@ public class SlidrConfig {
     public float getEdgeSize(float size) {
         return edgeSize * size;
     }
+
+	public void setEdgeSize(@FloatRange(from = 0f, to = 1f) float edgeSize){
+		this.edgeSize = edgeSize;
+	}
 
     /**
      * The Builder for this configuration class. This is the only way to create a
