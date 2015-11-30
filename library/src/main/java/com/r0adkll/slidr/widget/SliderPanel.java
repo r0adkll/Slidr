@@ -61,16 +61,13 @@ public class SliderPanel extends FrameLayout {
 	 */
 
     public SliderPanel(Context context, View decorView) {
-        super(context);
-        mDecorView = decorView;
-        mConfig = new SlidrConfig.Builder().build();
-        init();
+		this(context, decorView, null);
     }
 
     public SliderPanel(Context context, View decorView, SlidrConfig config){
         super(context);
         mDecorView = decorView;
-        mConfig = config;
+		mConfig = (config == null ? new SlidrConfig.Builder().build() : config);
         init();
     }
 
