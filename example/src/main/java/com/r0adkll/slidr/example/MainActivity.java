@@ -4,13 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.ftinc.kit.adapter.BetterRecyclerAdapter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.r0adkll.deadskunk.adapters.BetterRecyclerAdapter;
 import com.r0adkll.slidr.example.model.AndroidOS;
 
 import java.io.InputStream;
@@ -19,12 +20,12 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
-    @InjectView(R.id.recycler)
+    @Bind(R.id.recycler)
     RecyclerView mRecycler;
 
     private OSVersionAdapter mAdapter;
@@ -33,7 +34,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         initRecycler();
     }
 

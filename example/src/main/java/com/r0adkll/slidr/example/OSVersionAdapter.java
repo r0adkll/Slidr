@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.r0adkll.deadskunk.adapters.BetterRecyclerAdapter;
+import com.ftinc.kit.adapter.BetterRecyclerAdapter;
 import com.r0adkll.slidr.example.model.AndroidOS;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
+import butterknife.Bind;
 
 /**
  * Created by r0adkll on 1/11/15.
@@ -33,12 +33,12 @@ public class OSVersionAdapter extends BetterRecyclerAdapter<AndroidOS, OSVersion
     }
 
     public static class OSViewHolder extends RecyclerView.ViewHolder{
-        @InjectView(R.id.title)         public TextView title;
-        @InjectView(R.id.description)   public TextView description;
+        @Bind(R.id.title)         public TextView title;
+        @Bind(R.id.description)   public TextView description;
 
         public OSViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.inject(this, itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 

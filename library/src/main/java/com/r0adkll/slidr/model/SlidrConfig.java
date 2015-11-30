@@ -34,6 +34,12 @@ public class SlidrConfig {
      */
     private SlidrConfig(){}
 
+    /***********************************************************************************************
+     *
+     * Getters
+     *
+     */
+
     /**
      * Get the primary color that the slider will interpolate. That is this color is the color
      * of the status bar of the Activity you are returning to
@@ -166,6 +172,48 @@ public class SlidrConfig {
      */
     public float getEdgeSize(float size) {
         return edgeSize * size;
+    }
+
+    /***********************************************************************************************
+     *
+     * Setters
+     *
+     */
+
+    public void setColorPrimary(int colorPrimary) {
+        this.colorPrimary = colorPrimary;
+    }
+
+    public void setColorSecondary(int colorSecondary) {
+        this.colorSecondary = colorSecondary;
+    }
+
+    public void setTouchSize(float touchSize) {
+        this.touchSize = touchSize;
+    }
+
+    public void setSensitivity(float sensitivity) {
+        this.sensitivity = sensitivity;
+    }
+
+    public void setScrimColor(int scrimColor) {
+        this.scrimColor = scrimColor;
+    }
+
+    public void setScrimStartAlpha(float scrimStartAlpha) {
+        this.scrimStartAlpha = scrimStartAlpha;
+    }
+
+    public void setScrimEndAlpha(float scrimEndAlpha) {
+        this.scrimEndAlpha = scrimEndAlpha;
+    }
+
+    public void setVelocityThreshold(float velocityThreshold) {
+        this.velocityThreshold = velocityThreshold;
+    }
+
+    public void setDistanceThreshold(float distanceThreshold) {
+        this.distanceThreshold = distanceThreshold;
     }
 
     /**
