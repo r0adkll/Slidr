@@ -6,19 +6,14 @@
 package com.r0adkll.slidr.widget;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.widget.ViewDragHelper;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.SlidrPosition;
-
-import static com.r0adkll.slidr.model.SlidrPosition.*;
 
 /**
  * Project: PilotPass
@@ -55,28 +50,30 @@ public class SliderPanel extends FrameLayout {
 
     private SlidrConfig mConfig;
 
-    /**
-     * Constructor
-     *
-     * @param context
-     */
+	public SliderPanel(Context context) {
+		super(context);
+	}
+
+	/***********************************************************************************************
+	 *
+	 * Constructors
+	 *
+	 */
+
     public SliderPanel(Context context, View decorView) {
-        super(context);
-        mDecorView = decorView;
-        mConfig = new SlidrConfig.Builder().build();
-        init();
+		this(context, decorView, null);
     }
 
     public SliderPanel(Context context, View decorView, SlidrConfig config){
         super(context);
         mDecorView = decorView;
-        mConfig = config;
+		mConfig = (config == null ? new SlidrConfig.Builder().build() : config);
         init();
     }
 
     /**
      * Set the panel slide listener that gets called based on slider changes
-     * @param listener
+     * @param listener callback implementation
      */
     public void setOnPanelSlideListener(OnPanelSlideListener listener){
         mListener = listener;
@@ -337,7 +334,7 @@ public class SliderPanel extends FrameLayout {
     private ViewDragHelper.Callback mRightCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
-            boolean edgeCase = mConfig.isEdgeOnly() ? mDragHelper.isEdgeTouched(mEdgePosition, pointerId) : true;
+            boolean edgeCase = !mConfig.isEdgeOnly() || mDragHelper.isEdgeTouched(mEdgePosition, pointerId);
             return child.getId() == mDecorView.getId() && edgeCase;
         }
 
@@ -765,7 +762,8 @@ public class SliderPanel extends FrameLayout {
 
     /**
      * Apply the scrim to the dim view
-     * @param percent
+	 *
+     * @param percent dimming percentage
      */
     public void applyScrim(float percent){
         float alpha = (percent * (mConfig.getScrimStartAlpha() - mConfig.getScrimEndAlpha())) + mConfig.getScrimEndAlpha();

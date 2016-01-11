@@ -10,17 +10,15 @@ android {
 
     defaultConfig {
         applicationId "com.r0adkll.slidr.example"
-        minSdkVersion 22
-        targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion minSdk
     }
 
-    buildTypes {
-        release {
-
-        }
-    }
+	buildTypes {
+		release {
+			minifyEnabled false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
 
     lintOptions {
         abortOnError false

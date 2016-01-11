@@ -1,7 +1,6 @@
 package com.r0adkll.slidr.model;
 
 import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 
@@ -149,7 +148,7 @@ public class SlidrConfig {
 
     /**
      * Return whether or not the set status bar colors are valid
-     * @return
+     * @return true if primary and secondary color are set
      */
     public boolean areStatusBarColorsValid(){
         return colorPrimary != -1 && colorSecondary != -1;
