@@ -2,12 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
 android {
-    compileSdkVersion targetSdk
+    compileSdkVersion 23
     buildToolsVersion buildTools
 
     defaultConfig {
-        minSdkVersion minSdk
-        targetSdkVersion targetSdk
+        minSdkVersion 14
 		versionCode libraryCode
 		versionName libraryVersion
     }
