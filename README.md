@@ -99,7 +99,7 @@ Then in the layout of your activity you must give it a background like this;
 Include this line in your gradle build file:
 
 ```groovy
-compile 'com.r0adkll:slidableactivity:2.0.4'
+compile 'com.r0adkll:slidableactivity:2.0.5'
 ```
 
 For Snapshots, include these lines in your gradle files:
@@ -113,7 +113,7 @@ repositories {
 
 ```groovy
 dependencies{
-	compile 'com.r0adkll:slidableactivity:2.0.5-SNAPSHOT'
+	compile 'com.r0adkll:slidableactivity:2.0.6-SNAPSHOT'
 }
 ```
 
