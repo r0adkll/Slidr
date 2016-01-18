@@ -12,6 +12,10 @@ android {
 		versionName libraryVersion
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
 	buildTypes {
 		release {
 			minifyEnabled false
