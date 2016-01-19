@@ -20,6 +20,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
 /**
  * Created by farid on 18/01/16.
@@ -38,7 +40,7 @@ public class SliderPanelTest {
     public void testOnInterceptTouchEvent_whenLocked() throws Exception {
         //given
         SliderPanel sliderPanel = new SliderPanel(context);
-        Whitebox.setInternalState(sliderPanel, "mIsLocked", true);
+        setInternalState(sliderPanel, "mIsLocked", true);
 
         //when
         boolean result = sliderPanel.onInterceptTouchEvent(motionEvent);
@@ -55,12 +57,12 @@ public class SliderPanelTest {
         PowerMockito.when(sliderPanel, "getWidth").thenReturn(10);
 
         SlidrConfig slidrConfig = Mockito.mock(SlidrConfig.class);
-        Mockito.when(slidrConfig.isEdgeOnly()).thenReturn(true);
-        Mockito.when(slidrConfig.getPosition()).thenReturn(SlidrPosition.LEFT);
-        Mockito.when(slidrConfig.getEdgeSize(Matchers.anyInt())).thenReturn(10.1f);
+        when(slidrConfig.isEdgeOnly()).thenReturn(true);
+        when(slidrConfig.getPosition()).thenReturn(SlidrPosition.LEFT);
+        when(slidrConfig.getEdgeSize(Matchers.anyInt())).thenReturn(10.1f);
 
-        Whitebox.setInternalState(sliderPanel, "mIsLocked", false);
-        Whitebox.setInternalState(sliderPanel, "mConfig", slidrConfig);
+        setInternalState(sliderPanel, "mIsLocked", false);
+        setInternalState(sliderPanel, "mConfig", slidrConfig);
 
         //when
         boolean result = sliderPanel.onInterceptTouchEvent(motionEvent);
@@ -73,7 +75,7 @@ public class SliderPanelTest {
     public void testOnTouchEvent_whenLocked() throws Exception {
         //given
         SliderPanel sliderPanel = Mockito.spy(new SliderPanel(context));
-        Whitebox.setInternalState(sliderPanel, "mIsLocked", true);
+        setInternalState(sliderPanel, "mIsLocked", true);
 
         //when
         boolean result = sliderPanel.onTouchEvent(motionEvent);
@@ -86,10 +88,10 @@ public class SliderPanelTest {
     public void testOnTouchEvent_whenNotLocked() throws Exception {
         //given
         SliderPanel sliderPanel = Mockito.spy(new SliderPanel(context));
-        Whitebox.setInternalState(sliderPanel, "mIsLocked", false);
+        setInternalState(sliderPanel, "mIsLocked", false);
 
         ViewDragHelper viewDragHelper = Mockito.mock(ViewDragHelper.class);
-        Whitebox.setInternalState(sliderPanel, "mDragHelper", viewDragHelper);
+        setInternalState(sliderPanel, "mDragHelper", viewDragHelper);
 
         //when
         boolean result = sliderPanel.onTouchEvent(motionEvent);
@@ -102,11 +104,11 @@ public class SliderPanelTest {
     public void testOnTouchEvent_whenNotLocked_butExceptionInProcessTouchEvent() throws Exception {
         //given
         SliderPanel sliderPanel = Mockito.spy(new SliderPanel(context));
-        Whitebox.setInternalState(sliderPanel, "mIsLocked", false);
+        setInternalState(sliderPanel, "mIsLocked", false);
 
         ViewDragHelper viewDragHelper = Mockito.mock(ViewDragHelper.class);
         PowerMockito.doThrow(new IllegalArgumentException()).when(viewDragHelper).processTouchEvent(motionEvent);
-        Whitebox.setInternalState(sliderPanel, "mDragHelper", viewDragHelper);
+        setInternalState(sliderPanel, "mDragHelper", viewDragHelper);
 
         //when
         boolean result = sliderPanel.onTouchEvent(motionEvent);
