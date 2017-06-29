@@ -10,7 +10,7 @@ import com.ftinc.kit.adapter.BetterRecyclerAdapter;
 import com.r0adkll.slidr.example.model.AndroidOS;
 
 import butterknife.ButterKnife;
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by r0adkll on 1/11/15.
@@ -33,8 +33,8 @@ public class OSVersionAdapter extends BetterRecyclerAdapter<AndroidOS, OSVersion
     }
 
     public static class OSViewHolder extends RecyclerView.ViewHolder{
-        @Bind(R.id.title)         public TextView title;
-        @Bind(R.id.description)   public TextView description;
+        @BindView(R.id.title)         public TextView title;
+        @BindView(R.id.description)   public TextView description;
 
         public OSViewHolder(View itemView) {
             super(itemView);

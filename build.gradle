@@ -1,15 +1,17 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
 		maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
@@ -17,14 +19,16 @@ allprojects {
 
 ext {
 	//App
-	libraryCode = 10
-	libraryVersion = '2.1.0'
+	libraryCode = VERSION_CODE
+	libraryVersion = VERSION_NAME
 
 	//Support and Build tools version
-    targetSdk = 23
-	buildTools = '23.0.2'
-	supportLibrary = '23.1.1'
-    ftKit = '0.4.1'
+    compileSdk = 26
+    targetSdk = 26
+    minSdk = 14
+	buildTools = '26.0.0'
+	supportLibrary = '25.4.0'
+    ftKit = '0.5.1'
 
 	//Support Libraries dependencies
 	supportDependencies = [
