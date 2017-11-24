@@ -8,12 +8,13 @@ package com.r0adkll.slidr.widget;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewGroupCompat;
-import android.support.v4.widget.ViewDragHelper;
+
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.ViewDragHelper;
 
 /**
  * Project: PilotPass
