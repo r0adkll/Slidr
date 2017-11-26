@@ -1,5 +1,8 @@
 Slidr
 ================
+
+Note on this fork: https://github.com/r0adkll/Slidr/issues/45 solved here. (When using Horizontal)
+
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364)   
 [![Stories in Ready](https://badge.waffle.io/r0adkll/Slidr.png?label=ready&title=Ready)](https://waffle.io/r0adkll/Slidr)
 [![Build Status](https://travis-ci.org/r0adkll/Slidr.svg?branch=master)](https://travis-ci.org/r0adkll/Slidr)
