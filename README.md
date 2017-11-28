@@ -2,6 +2,7 @@ Slidr
 ================
 
 Note on this fork: https://github.com/r0adkll/Slidr/issues/45 solved here. (When using Horizontal)
+
 Note2 on this fork: added the same behavior available to Fragments!
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364)   
