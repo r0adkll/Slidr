@@ -1,9 +1,57 @@
 Slidr
 ================
 
-Note on this fork: https://github.com/r0adkll/Slidr/issues/45 solved here. (When using Horizontal)
+## Note 1 on this fork:
+https://github.com/r0adkll/Slidr/issues/45 solved here. (When using Horizontal)
 
-Note2 on this fork: added the same behavior available to Fragments!
+## Note 2 on this fork:
+added the same behavior available to Fragments! Here is a quick how-to explanation:
+
+The activity must extend AppCompatActivity.
+Set the background to the main container of the activity in the xml `background="@android:color/transparent"`.
+Add the following code to the Fragment:
+
+```java
+// This interface is needed to see if the fragment
+// is resuming after creation (Slidr to be attached) or
+// simply from the background (app was paused before).
+SlidrInterface slidrInterface;
+@Override
+public void onResume() {
+    super.onResume();
+    if(slidrInterface == null)
+        slidrInterface = Slidr.replace(getView().findViewById(R.id.content_container), new SlidrConfig.Builder().position(SlidrPosition.LEFT).build());
+}
+```
+In the xml of the fragment's view, the root view must be a FrameLayout with the same background set to the activity before. Add a child viewgroup to it with the id content_container. E.g.:
+
+```xml
+<FrameLayout
+    android:id="@+id/main_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent" >
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+	
+		...other stuff
+
+	</android.support.design.widget.CoordinatorLayout>
+</FrameLayout>
+```
+Remember: you have to add new Fragments with: 
+```java 
+getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, YourFragmentClass.newInstance()).commit();
+```
+where fragment_container is the id of a FrameLayout inside the activity's xml.
+
+
+
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364)   
 [![Stories in Ready](https://badge.waffle.io/r0adkll/Slidr.png?label=ready&title=Ready)](https://waffle.io/r0adkll/Slidr)
