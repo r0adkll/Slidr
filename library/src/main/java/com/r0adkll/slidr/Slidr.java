@@ -184,5 +184,82 @@ public class Slidr {
 		// Return the lock interface
 		return slidrInterface;
 	}
+	
+	public static SlidrInterface replace(final View oldScreen, final SlidrConfig config){
+		ViewGroup parent = (ViewGroup) oldScreen.getParent();
+		ViewGroup.LayoutParams params = oldScreen.getLayoutParams();
+		parent.removeView(oldScreen);
+		// Setup the slider panel and attach it
+		final SliderPanel panel = new SliderPanel(oldScreen.getContext(), oldScreen, config);
+		panel.setId(R.id.slidable_panel);
+		oldScreen.setId(R.id.slidable_content);
+
+		panel.addView(oldScreen);
+		parent.addView(panel,0, params);
+
+		// Set the panel slide listener for when it becomes closed or opened
+		panel.setOnPanelSlideListener(new SliderPanel.OnPanelSlideListener() {
+
+		    @Override
+		    public void onStateChanged(int state) {
+			if(config.getListener() != null){
+			    config.getListener().onSlideStateChanged(state);
+			}
+		    }
+
+		    @Override
+		    public void onClosed() {
+			if(config.getListener() != null){
+			    config.getListener().onSlideClosed();
+			}
+			if(((AppCompatActivity)(oldScreen.getContext())).getSupportFragmentManager().getBackStackEntryCount()==0) {
+			    ((AppCompatActivity)(oldScreen.getContext())).finish();
+			    ((AppCompatActivity)(oldScreen.getContext())).overridePendingTransition(0, 0);
+			}else{
+			    ((AppCompatActivity)(oldScreen.getContext())).getSupportFragmentManager().popBackStack();
+			}
+		    }
+
+		    @Override
+		    public void onOpened() {
+			if(config.getListener() != null){
+			    config.getListener().onSlideOpened();
+			}
+		    }
+
+		    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+		    @Override
+		    public void onSlideChange(float percent) {
+			if(config.getListener() != null){
+			    config.getListener().onSlideChange(percent);
+			}
+		    }
+		});
+
+		// Setup the lock interface
+		SlidrInterface slidrInterface = new SlidrInterface() {
+		    @Override
+		    public void lock() {
+			panel.lock();
+		    }
+
+		    @Override
+		    public void unlock() {
+			panel.unlock();
+		    }
+
+		    @Override
+		    public void addViewToPanel(View v) {
+
+		    }
+
+		    @Override
+		    public void removeViewToPanel(View v) {
+
+		    }
+		};
+		// Return the lock interface
+		return slidrInterface;
+    }
 
 }
