@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ftinc.kit.util.SizeUtils;
 import com.ftinc.kit.util.Utils;
 import com.ftinc.kit.widget.AspectRatioImageView;
 import com.r0adkll.slidr.Slidr;
@@ -20,32 +21,22 @@ import com.r0adkll.slidr.model.SlidrPosition;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 
-/**
- * Created by r0adkll on 1/11/15.
- */
+
 public class ViewerActivity extends AppCompatActivity {
 
     public static final String EXTRA_OS = "extra_os_version";
 
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
-    @Bind(R.id.cover)
-    AspectRatioImageView mCover;
-    @Bind(R.id.title)
-    TextView mTitle;
-    @Bind(R.id.description)
-    TextView mDescription;
-    @Bind(R.id.date)
-    TextView mDate;
-    @Bind(R.id.version)
-    TextView mVersion;
-    @Bind(R.id.sdk)
-    TextView mSdk;
-    @Bind(R.id.position)
-    TextView mPosition;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.cover) AspectRatioImageView mCover;
+    @BindView(R.id.title) TextView mTitle;
+    @BindView(R.id.description) TextView mDescription;
+    @BindView(R.id.date) TextView mDate;
+    @BindView(R.id.version) TextView mVersion;
+    @BindView(R.id.sdk) TextView mSdk;
+    @BindView(R.id.position) TextView mPosition;
 
     private AndroidOS mOS;
     private SlidrConfig mConfig;
@@ -68,11 +59,11 @@ public class ViewerActivity extends AppCompatActivity {
         mConfig = new SlidrConfig.Builder()
                 .primaryColor(primary)
                 .secondaryColor(secondary)
-                .position(position)
+                .position(SlidrPosition.VERTICAL)
                 .velocityThreshold(2400)
-                .distanceThreshold(.25f)
-                .edge(true)
-                .touchSize(Utils.dpToPx(this, 32))
+//                .distanceThreshold(.25f)
+//                .edge(true)
+                .touchSize(SizeUtils.dpToPx(this, 32))
                 .build();
 
         // Attach the Slidr Mechanism to this activity

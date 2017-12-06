@@ -1,9 +1,7 @@
 package com.r0adkll.slidr.example;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,16 +17,16 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Bind;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.recycler)
-    RecyclerView mRecycler;
+    @BindView(R.id.recycler) RecyclerView mRecycler;
 
     private OSVersionAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +36,7 @@ public class MainActivity extends AppCompatActivity {
         initRecycler();
     }
 
-    /**
-     * Intialize Recycler
-     */
+
     private void initRecycler(){
         mAdapter = new OSVersionAdapter();
         mAdapter.addAll(getData());
@@ -57,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     private List<AndroidOS> getData(){
         InputStream is = getResources().openRawResource(R.raw.android_versions);
         InputStreamReader isr = new InputStreamReader(is);
@@ -65,5 +62,4 @@ public class MainActivity extends AppCompatActivity {
         List<AndroidOS> oss = gson.fromJson(isr, listType);
         return oss;
     }
-
 }

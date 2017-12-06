@@ -1,31 +1,19 @@
-apply from: '../jacoco.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion compileSdk
     buildToolsVersion buildTools
 
     defaultConfig {
-        minSdkVersion 14
-		versionCode libraryCode
-		versionName libraryVersion
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     testOptions {
         unitTests.returnDefaultValues = true
     }
-
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-			testCoverageEnabled true
-		}
-		debug {
-			testCoverageEnabled true
-		}
-	}
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -40,8 +28,6 @@ dependencies {
     testCompile 'org.hamcrest:hamcrest-library:1.1'
     testCompile 'org.powermock:powermock-api-mockito:1.6.2'
     testCompile 'org.powermock:powermock-module-junit4:1.6.2'
-    testCompile 'com.openpojo:openpojo:0.8.0'
-    testCompile 'asm:asm:3.3.1'
 }
 
 apply from: '../gradle-mvn-push.gradle'

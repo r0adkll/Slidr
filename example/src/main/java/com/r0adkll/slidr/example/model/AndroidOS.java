@@ -3,9 +3,7 @@ package com.r0adkll.slidr.example.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by r0adkll on 1/11/15.
- */
+
 public class AndroidOS implements Parcelable{
     public String name;
     public String version;

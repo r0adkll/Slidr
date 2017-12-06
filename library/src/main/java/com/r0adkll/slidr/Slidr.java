@@ -1,9 +1,9 @@
 package com.r0adkll.slidr;
 
-import android.animation.ArgbEvaluator;
-import android.annotation.TargetApi;
+
 import android.app.Activity;
-import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,15 +11,13 @@ import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
 import com.r0adkll.slidr.widget.SliderPanel;
 
+
 /**
  * This attacher class is used to attach the sliding mechanism to any {@link android.app.Activity}
  * that lets the user slide (or swipe) the activity away as a form of back or up action. The action
  * causes {@link android.app.Activity#finish()} to be called.
- *
- *
- * Created by r0adkll on 8/18/14.
  */
-public class Slidr {
+public final class Slidr {
 
     /**
      * Attach a slideable mechanism to an activity that adds the slide to dismiss functionality
@@ -28,9 +26,10 @@ public class Slidr {
      * @return              a {@link com.r0adkll.slidr.model.SlidrInterface} that allows
      *                      the user to lock/unlock the sliding mechanism for whatever purpose.
      */
-    public static SlidrInterface attach(Activity activity){
+    public static SlidrInterface attach(@NonNull Activity activity) {
         return attach(activity, -1, -1);
     }
+
 
     /**
      * Attach a slideable mechanism to an activity that adds the slide to dismiss functionality
@@ -44,47 +43,19 @@ public class Slidr {
      * @return              a {@link com.r0adkll.slidr.model.SlidrInterface} that allows
      *                      the user to lock/unlock the sliding mechanism for whatever purpose.
      */
-    public static SlidrInterface attach(final Activity activity, final int statusBarColor1, final int statusBarColor2){
+    public static SlidrInterface attach(@NonNull Activity activity, @ColorInt int statusBarColor1,
+                                        @ColorInt int statusBarColor2) {
 
 		// Setup the slider panel and attach it to the decor
-		final SliderPanel panel = initSliderPanel(activity, null);
+		final SliderPanel panel = attachSliderPanel(activity, null);
 
         // Set the panel slide listener for when it becomes closed or opened
-        panel.setOnPanelSlideListener(new SliderPanel.OnPanelSlideListener() {
-
-            private final ArgbEvaluator mEvaluator = new ArgbEvaluator();
-
-            @Override
-            public void onStateChanged(int state) {
-
-            }
-
-            @Override
-            public void onClosed() {
-                activity.finish();
-                activity.overridePendingTransition(0, 0);
-            }
-
-            @Override
-            public void onOpened() {
-
-			}
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onSlideChange(float percent) {
-                // Interpolate the statusbar color
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                        statusBarColor1 != -1 && statusBarColor2 != -1){
-                    int newColor = (int) mEvaluator.evaluate(percent, statusBarColor1, statusBarColor2);
-                    activity.getWindow().setStatusBarColor(newColor);
-                }
-            }
-        });
+        panel.setOnPanelSlideListener(new ColorPanelSlideListener(activity, statusBarColor1, statusBarColor2));
 
 		// Return the lock interface
-		return initInterface(panel);
+		return panel.getDefaultInterface();
     }
+
 
     /**
      * Attach a slider mechanism to an activity based on the passed {@link com.r0adkll.slidr.model.SlidrConfig}
@@ -94,65 +65,23 @@ public class Slidr {
      * @return              a {@link com.r0adkll.slidr.model.SlidrInterface} that allows
      *                      the user to lock/unlock the sliding mechanism for whatever purpose.
      */
-    public static SlidrInterface attach(final Activity activity, final SlidrConfig config){
+    public static SlidrInterface attach(@NonNull Activity activity, @NonNull SlidrConfig config) {
 
         // Setup the slider panel and attach it to the decor
-        final SliderPanel panel = initSliderPanel(activity, config);
+        final SliderPanel panel = attachSliderPanel(activity, config);
 
         // Set the panel slide listener for when it becomes closed or opened
-        panel.setOnPanelSlideListener(new SliderPanel.OnPanelSlideListener() {
-
-            private final ArgbEvaluator mEvaluator = new ArgbEvaluator();
-
-            @Override
-            public void onStateChanged(int state) {
-                if(config.getListener() != null){
-                    config.getListener().onSlideStateChanged(state);
-                }
-            }
-
-            @Override
-            public void onClosed() {
-                if(config.getListener() != null){
-                    config.getListener().onSlideClosed();
-                }
-
-                activity.finish();
-                activity.overridePendingTransition(0, 0);
-            }
-
-            @Override
-            public void onOpened() {
-                if(config.getListener() != null){
-                    config.getListener().onSlideOpened();
-                }
-            }
-
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onSlideChange(float percent) {
-                // Interpolate the statusbar color
-                // TODO: Add support for KitKat
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                        config.areStatusBarColorsValid()){
-
-                    int newColor = (int) mEvaluator.evaluate(percent, config.getPrimaryColor(),
-                            config.getSecondaryColor());
-
-                    activity.getWindow().setStatusBarColor(newColor);
-                }
-
-                if(config.getListener() != null){
-                    config.getListener().onSlideChange(percent);
-                }
-            }
-        });
+        panel.setOnPanelSlideListener(new ConfigPanelSlideListener(activity, config));
 
         // Return the lock interface
-        return initInterface(panel);
+        return panel.getDefaultInterface();
     }
 
-	private static SliderPanel initSliderPanel(final Activity activity, final SlidrConfig config) {
+
+    /**
+     * Attach a new {@link SliderPanel} to the root of the activity's content
+     */
+	private static SliderPanel attachSliderPanel(@NonNull Activity activity, @NonNull SlidrConfig config) {
 		// Hijack the decorview
 		ViewGroup decorView = (ViewGroup)activity.getWindow().getDecorView();
 		View oldScreen = decorView.getChildAt(0);
@@ -184,7 +113,7 @@ public class Slidr {
 		// Return the lock interface
 		return slidrInterface;
 	}
-	
+
 	public static SlidrInterface replace(final View oldScreen, final SlidrConfig config){
 		ViewGroup parent = (ViewGroup) oldScreen.getParent();
 		ViewGroup.LayoutParams params = oldScreen.getLayoutParams();
