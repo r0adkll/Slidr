@@ -26,7 +26,7 @@ ext {
     compileSdk = 26
     targetSdk = 26
     minSdk = 14
-	buildTools = '26.0.0'
+	buildTools = '27.0.1'
 	supportLibrary = '25.4.0'
     ftKit = '0.5.1'
 

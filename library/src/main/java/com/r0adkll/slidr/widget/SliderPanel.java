@@ -12,7 +12,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.model.ViewDragHelper;
+import com.r0adkll.slidr.util.ViewDragHelper;
 import com.r0adkll.slidr.model.SlidrInterface;
 
 
