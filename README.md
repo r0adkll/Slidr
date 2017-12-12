@@ -19,9 +19,9 @@ public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivit
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_example);
-        int primary = getResources().getColor(R.color.primaryDark);
-        int secondary = getResources().getColor(R.color.secondaryDark);
-        Slidr.attach(this, primary, secondary);
+		int primary = getResources().getColor(R.color.primaryDark);
+		int secondary = getResources().getColor(R.color.secondaryDark);
+		Slidr.attach(this, primary, secondary);
 	}
 
 }
@@ -36,7 +36,7 @@ public class ExampleActivity extends <Activity|FragmentActivity|ActionBarActivit
 	public void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_example);
-        Slidr.attach(this);
+        	Slidr.attach(this);
 	}
 
 }
@@ -79,7 +79,7 @@ In the xml of the fragment's view, the root view must be a FrameLayout with the 
 	
 		...other stuff
 
-	</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>
 ```
 Remember: you have to add new Fragments with:  
@@ -154,6 +154,7 @@ Include this line in your gradle build file:
 ```groovy
 compile 'com.r0adkll:slidableactivity:2.0.6'
 ```
+
 <!--  
 For Snapshots, include these lines in your gradle files:
 
