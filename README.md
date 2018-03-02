@@ -167,7 +167,7 @@ repositories {
 
 ```groovy
 dependencies{
-	compile 'com.r0adkll:slidableactivity:2.0.7-SNAPSHOT'
+	implementation 'com.r0adkll:slidableactivity:2.0.7-SNAPSHOT'
 }
 ```
 -->
