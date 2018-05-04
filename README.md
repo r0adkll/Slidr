@@ -152,7 +152,7 @@ Then in the layout of your activity you must give it a background like this;
 Include this line in your gradle build file:
 
 ```groovy
-compile 'com.r0adkll:slidableactivity:2.0.6'
+implementation 'com.r0adkll:slidableactivity:2.0.6'
 ```
 
 <!--  
