@@ -32,7 +32,9 @@ class FragmentPanelSlideListener implements SliderPanel.OnPanelSlideListener {
     @Override
     public void onClosed() {
         if (config.getListener() != null) {
-            config.getListener().onSlideClosed();
+            if(config.getListener().onSlideClosed()) {
+                return;
+            }
         }
 
         // Ensure that we are attached to a FragmentActivity
