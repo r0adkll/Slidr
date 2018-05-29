@@ -22,5 +22,8 @@ public interface SlidrListener {
 
     void onSlideOpened();
 
-    void onSlideClosed();
+    /**
+     * @return <code>true</code> than event was processed in the callback.
+     */
+    boolean onSlideClosed();
 }

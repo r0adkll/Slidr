@@ -28,7 +28,9 @@ class ConfigPanelSlideListener extends ColorPanelSlideListener {
     @Override
     public void onClosed() {
         if(config.getListener() != null){
-            config.getListener().onSlideClosed();
+            if(config.getListener().onSlideClosed()) {
+                return;
+            }
         }
         super.onClosed();
     }
