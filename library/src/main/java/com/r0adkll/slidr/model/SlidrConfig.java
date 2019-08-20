@@ -2,8 +2,9 @@ package com.r0adkll.slidr.model;
 
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
+import androidx.customview.widget.ViewDragHelper;
 
 
 /**
@@ -137,7 +138,7 @@ public class SlidrConfig {
 
 
     /**
-     * Get the touch sensitivity set in the {@link android.support.v4.widget.ViewDragHelper} when
+     * Get the touch sensitivity set in the {@link ViewDragHelper} when
      * creating it.
      *
      * @return      the touch sensitivity

@@ -25,16 +25,15 @@ ext {
 	//Support and Build tools version
     compileSdk = 28
     targetSdk = 28
-    minSdk = 14
-	supportLibrary = '28.0.0'
-    ftKit = '0.5.1'
+    minSdk = 19
+    ftKit = '0.6.0'
 
 	//Support Libraries dependencies
 	supportDependencies = [
-			support       : "com.android.support:support-v4:${supportLibrary}",
-            appCompat     : "com.android.support:appcompat-v7:${supportLibrary}",
-            recycler      : "com.android.support:recyclerview-v7:${supportLibrary}",
-            cardView      : "com.android.support:cardview-v7:${supportLibrary}",
+			support       : 'androidx.legacy:legacy-support-v4:1.0.0',
+            appCompat     : 'androidx.appcompat:appcompat:1.0.0',
+            recycler      : 'androidx.recyclerview:recyclerview:1.0.0',
+            cardView      : 'androidx.cardview:cardview:1.0.0',
             kitCore       : "com.52inc:52Kit-core:${ftKit}"
 	]
 
