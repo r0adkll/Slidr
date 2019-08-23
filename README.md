@@ -1,7 +1,6 @@
 Slidr
 ================
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364)   
-[![Stories in Ready](https://badge.waffle.io/r0adkll/Slidr.png?label=ready&title=Ready)](https://waffle.io/r0adkll/Slidr)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364)
 [![Build Status](https://travis-ci.org/r0adkll/Slidr.svg?branch=master)](https://travis-ci.org/r0adkll/Slidr)
 
 Easily add slide-to-dismiss functionality to your Activity by calling `Slidr.attach(this)` in your `onCreate(..)` method.
@@ -152,7 +151,7 @@ Then in the layout of your activity you must give it a background like this;
 Include this line in your gradle build file:
 
 ```groovy
-implementation 'com.r0adkll:slidableactivity:2.0.6'
+implementation 'com.r0adkll:slidableactivity:2.1.0'
 ```
 
 <!--  

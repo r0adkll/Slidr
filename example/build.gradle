@@ -5,7 +5,7 @@ android {
 
     defaultConfig {
         applicationId "com.r0adkll.slidr.example"
-        minSdkVersion 21
+        minSdkVersion minSdk
         targetSdkVersion targetSdk
         versionCode 1
         versionName VERSION_NAME
