@@ -3,7 +3,7 @@ package com.r0adkll.slidr;
 import android.animation.ArgbEvaluator;
 import android.app.Activity;
 import android.os.Build;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 
 import com.r0adkll.slidr.widget.SliderPanel;
 

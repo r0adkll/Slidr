@@ -1,8 +1,8 @@
 package com.r0adkll.slidr;
 
 
-import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import android.view.View;
 
 import com.r0adkll.slidr.model.SlidrConfig;

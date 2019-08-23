@@ -1,5 +1,7 @@
 package com.r0adkll.slidr.model;
 
+import androidx.customview.widget.ViewDragHelper;
+
 /**
  * This listener interface is for receiving events from the sliding panel such as state changes
  * and slide progress
@@ -7,14 +9,14 @@ package com.r0adkll.slidr.model;
 public interface SlidrListener {
 
     /**
-     * This is called when the {@link android.support.v4.widget.ViewDragHelper} calls it's
+     * This is called when the {@link ViewDragHelper} calls it's
      * state change callback.
      *
-     * @see android.support.v4.widget.ViewDragHelper#STATE_IDLE
-     * @see android.support.v4.widget.ViewDragHelper#STATE_DRAGGING
-     * @see android.support.v4.widget.ViewDragHelper#STATE_SETTLING
+     * @see ViewDragHelper#STATE_IDLE
+     * @see ViewDragHelper#STATE_DRAGGING
+     * @see ViewDragHelper#STATE_SETTLING
      *
-     * @param state     the {@link android.support.v4.widget.ViewDragHelper} state
+     * @param state     the {@link ViewDragHelper} state
      */
     void onSlideStateChanged(int state);
 

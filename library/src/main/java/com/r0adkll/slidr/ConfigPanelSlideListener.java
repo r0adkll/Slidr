@@ -2,7 +2,7 @@ package com.r0adkll.slidr;
 
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.r0adkll.slidr.model.SlidrConfig;
 
 
