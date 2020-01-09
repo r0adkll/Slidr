@@ -155,63 +155,10 @@
             app:cardElevation="4dp"
             >
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <View
-                    android:id="@+id/color1"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="8dp"
-
-                    android:layout_weight="1"
-                    android:background="@color/red_500"
-                    />
-
-                <View
-                    android:id="@+id/color2"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="8dp"
-
-                    android:layout_weight="1"
-                    android:background="@color/blue_500"
-                    />
-
-                <View
-                    android:id="@+id/color3"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="8dp"
-
-                    android:layout_weight="1"
-                    android:background="@color/pink_500"
-                    />
-
-                <View
-                    android:id="@+id/color4"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="8dp"
-
-                    android:layout_weight="1"
-                    android:background="@color/purple_500"
-                    />
-
-                <View
-                    android:id="@+id/color5"
-                    android:layout_width="0dp"
-                    android:layout_height="32dp"
-                    android:layout_margin="8dp"
-
-                    android:layout_weight="1"
-                    android:background="@color/orange_500"
-                    />
-
-
-            </LinearLayout>
+                android:layout_height="64dp"/>
 
         </androidx.cardview.widget.CardView>
 

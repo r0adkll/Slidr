@@ -4,16 +4,19 @@ package com.r0adkll.slidr.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewGroupCompat;
-
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
+import androidx.customview.widget.ViewDragHelper;
+
 import com.r0adkll.slidr.model.SlidrConfig;
-import com.r0adkll.slidr.util.ViewDragHelper;
 import com.r0adkll.slidr.model.SlidrInterface;
+import com.r0adkll.slidr.model.SlidrPosition;
+import com.r0adkll.slidr.util.ViewHelper;
 
 
 public class SliderPanel extends FrameLayout {
@@ -35,6 +38,8 @@ public class SliderPanel extends FrameLayout {
 
     private SlidrConfig config;
 
+    private float startX = 0f;
+    private float startY = 0f;
 
 	public SliderPanel(Context context) {
 		super(context);
@@ -56,6 +61,9 @@ public class SliderPanel extends FrameLayout {
         if(isLocked){
             return false;
         }
+
+        startX = ev.getX();
+        startY = ev.getY();
 
         if(config.isEdgeOnly()) {
             isEdgeTouched = canDragFromEdge(ev);
@@ -143,8 +151,9 @@ public class SliderPanel extends FrameLayout {
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
+            boolean canScrollChild = ViewHelper.canChildUnderPointScrollable(child, SlidrPosition.LEFT, (int) startX, (int) startY);
             boolean edgeCase = !config.isEdgeOnly() || dragHelper.isEdgeTouched(edgePosition, pointerId);
-            return child.getId() == decorView.getId() && edgeCase;
+            return !canScrollChild && child.getId() == decorView.getId() && edgeCase;
         }
 
         @Override
