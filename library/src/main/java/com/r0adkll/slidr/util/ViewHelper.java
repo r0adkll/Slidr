@@ -12,28 +12,27 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.r0adkll.slidr.model.SlidrPosition;
 
+import java.util.Stack;
+
 public class ViewHelper {
 
-    public static boolean hasScrollableChildrenUnderPoint(View mView, SlidrPosition direction, int x, int y) {
-        View scrollableView = null;
-        if (mView instanceof ViewGroup) {
-            scrollableView = findScrollableViewContains(mView, direction, x, y);
-        }
+    public static boolean hasScrollableChildUnderPoint(View mView, SlidrPosition direction, int x, int y) {
+        View scrollableView = findScrollableViewContains(mView, direction, x, y);
         return scrollableView != null;
     }
 
     private static View findScrollableViewContains(View mView, SlidrPosition direction, int x, int y) {
-        if (mView.getVisibility() == View.VISIBLE && isViewUnder(mView, x, y)
-                && isScrollableView(mView) && canScroll(mView, direction)) {
+        if (isScrollableView(mView) && canScroll(mView, direction)) {
             return mView;
         }
         if (!(mView instanceof ViewGroup)) return null;
 
         ViewGroup mViewGroup = (ViewGroup) mView;
+        int relativeX = x - mViewGroup.getLeft() + mViewGroup.getScrollX();
+        int relativeY = y - mViewGroup.getTop() + mViewGroup.getScrollY();
         for (int i = 0; i < mViewGroup.getChildCount(); i++) {
             View childView = mViewGroup.getChildAt(i);
-            int relativeX = x - mViewGroup.getLeft() + mViewGroup.getScrollX();
-            int relativeY = y - mViewGroup.getTop() + mViewGroup.getScrollY();
+            if (childView.getVisibility() != View.VISIBLE || !isViewUnder(childView, relativeX, relativeY)) continue;
             View scrollableView = findScrollableViewContains(childView, direction, relativeX, relativeY);
             if (scrollableView != null) {
                 return scrollableView;
@@ -77,5 +76,40 @@ public class ViewHelper {
                 x < view.getRight() &&
                 y >= view.getTop() &&
                 y < view.getBottom();
+    }
+
+    private static View findScrollableInIterativeWay(View parent, SlidrPosition direction, int x, int y) {
+        Stack<ViewInfo> viewStack = new Stack<>();
+        ViewInfo viewInfo = new ViewInfo(parent, x, y);
+        while (viewInfo != null) {
+            View mView = viewInfo.view;
+            if (isScrollableView(mView) && canScroll(mView, direction)) {
+                return mView;
+            }
+            if (mView instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) mView;
+                int relativeX = viewInfo.x - viewGroup.getLeft() + viewGroup.getScrollX();
+                int relativeY = viewInfo.y - viewGroup.getTop() + viewGroup.getScrollY();
+                for (int i = viewGroup.getChildCount() - 1; i >= 0; i--) {
+                    View childView = viewGroup.getChildAt(i);
+                    if (childView.getVisibility() != View.VISIBLE || !isViewUnder(childView, relativeX, relativeY)) continue;
+                    viewStack.push(new ViewInfo(childView, relativeX, relativeY));
+                }
+            }
+            viewInfo = viewStack.isEmpty() ? null : viewStack.pop();
+        }
+        return null;
+    }
+
+    static class ViewInfo {
+        View view;
+        int x;
+        int y;
+
+        public ViewInfo(View view, int x, int y) {
+            this.view = view;
+            this.x = x;
+            this.y = y;
+        }
     }
 }

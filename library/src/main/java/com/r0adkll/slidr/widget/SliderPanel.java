@@ -152,7 +152,7 @@ public class SliderPanel extends FrameLayout {
 
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
-            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.LEFT, (int) startX, (int) startY);
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildUnderPoint(child, SlidrPosition.LEFT, (int) startX, (int) startY);
             boolean edgeCase = !config.isEdgeOnly() || dragHelper.isEdgeTouched(edgePosition, pointerId);
             return !canChildScroll && child.getId() == decorView.getId() && edgeCase;
         }
@@ -237,7 +237,7 @@ public class SliderPanel extends FrameLayout {
     private final ViewDragHelper.Callback rightCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
-            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.RIGHT, (int) startX, (int) startY);
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildUnderPoint(child, SlidrPosition.RIGHT, (int) startX, (int) startY);
             boolean edgeCase = !config.isEdgeOnly() || dragHelper.isEdgeTouched(edgePosition, pointerId);
             return !canChildScroll && child.getId() == decorView.getId() && edgeCase;
         }
@@ -321,7 +321,7 @@ public class SliderPanel extends FrameLayout {
     private final ViewDragHelper.Callback topCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
-            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.TOP, (int) startX, (int) startY);
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildUnderPoint(child, SlidrPosition.TOP, (int) startX, (int) startY);
             return !canChildScroll && child.getId() == decorView.getId() && (!config.isEdgeOnly() || isEdgeTouched);
         }
 
@@ -402,7 +402,7 @@ public class SliderPanel extends FrameLayout {
     private final ViewDragHelper.Callback bottomCallback = new ViewDragHelper.Callback() {
         @Override
         public boolean tryCaptureView(@NonNull View child, int pointerId) {
-            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.BOTTOM, (int) startX, (int) startY);
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildUnderPoint(child, SlidrPosition.BOTTOM, (int) startX, (int) startY);
             return !canChildScroll && child.getId() == decorView.getId() && (!config.isEdgeOnly() || isEdgeTouched);
         }
 
@@ -490,7 +490,7 @@ public class SliderPanel extends FrameLayout {
         public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
             if ((top > 0 && dy > 0 || top < 0 && dy < 0)) {
                 SlidrPosition slidrPosition = dy > 0 ? SlidrPosition.TOP : SlidrPosition.BOTTOM;
-                boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, slidrPosition, (int) startX, (int) startY);
+                boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildUnderPoint(child, slidrPosition, (int) startX, (int) startY);
                 if (canChildScroll) {
                     return 0;
                 }
@@ -593,7 +593,7 @@ public class SliderPanel extends FrameLayout {
         public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
             if ((left > 0 && dx > 0 || left < 0 && dx < 0)) {
                 SlidrPosition slidrPosition = dx > 0 ? SlidrPosition.LEFT : SlidrPosition.RIGHT;
-                boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, slidrPosition, (int) startX, (int) startY);
+                boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildUnderPoint(child, slidrPosition, (int) startX, (int) startY);
                 if (canChildScroll) {
                     return 0;
                 }
