@@ -107,6 +107,7 @@ SlidrConfig config = new SlidrConfig.Builder()
 	.distanceThreshold(0.25f)
 	.edge(true|false)
 	.edgeSize(0.18f) // The % of the screen that counts as the edge, default 18%
+	.ignoreChildScroll(true|false)
 	.listener(new SlidrListener(){...})
 	.build();
 
