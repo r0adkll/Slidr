@@ -41,6 +41,7 @@ public class ViewerActivity extends AppCompatActivity {
     @BindView(R.id.sdk) TextView mSdk;
     @BindView(R.id.position) TextView mPosition;
     @BindView(R.id.recycler) RecyclerView recycler;
+    @BindView(R.id.recycler2) RecyclerView recycler2;
 
     private AndroidOS mOS;
     private SlidrConfig mConfig;
@@ -97,10 +98,22 @@ public class ViewerActivity extends AppCompatActivity {
         ColorAdapter colorAdapter = new ColorAdapter();
         recycler.setAdapter(colorAdapter);
         colorAdapter.setOnItemClickListener((view, colorNumber, i) -> {
-            int color = ContextCompat.getColor(this, colorNumber);
-            getWindow().setStatusBarColor(color);
-            mConfig.setColorSecondary(color);
+            onColorClicked(colorNumber);
         });
+
+        // Color recycler view
+        recycler2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        ColorAdapter colorAdapter2 = new ColorAdapter();
+        recycler2.setAdapter(colorAdapter2);
+        colorAdapter2.setOnItemClickListener((view, colorNumber, i) -> {
+            onColorClicked(colorNumber);
+        });
+    }
+
+    private void onColorClicked(Integer colorNumber) {
+        int color = ContextCompat.getColor(this, colorNumber);
+        getWindow().setStatusBarColor(color);
+        mConfig.setColorSecondary(color);
     }
 
     @Override

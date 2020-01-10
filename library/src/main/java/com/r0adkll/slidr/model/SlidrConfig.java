@@ -16,7 +16,7 @@ public class SlidrConfig {
     private int colorPrimary = -1;
     private int colorSecondary = -1;
     private float touchSize = -1f;
-    private float sensitivity = 1f;
+    private float sensitivity = 0.5f;
     private int scrimColor = Color.BLACK;
     private float scrimStartAlpha = 0.8f;
     private float scrimEndAlpha = 0f;

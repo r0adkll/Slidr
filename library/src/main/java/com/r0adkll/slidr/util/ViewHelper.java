@@ -17,27 +17,26 @@ public class ViewHelper {
     public static boolean hasScrollableChildrenUnderPoint(View mView, SlidrPosition direction, int x, int y) {
         View scrollableView = null;
         if (mView instanceof ViewGroup) {
-            scrollableView = findScrollableViewContains((ViewGroup) mView, direction, x, y);
+            scrollableView = findScrollableViewContains(mView, direction, x, y);
         }
         return scrollableView != null;
     }
 
-    private static View findScrollableViewContains(ViewGroup mViewGroup, SlidrPosition direction, int x, int y) {
+    private static View findScrollableViewContains(View mView, SlidrPosition direction, int x, int y) {
+        if (mView.getVisibility() == View.VISIBLE && isViewUnder(mView, x, y)
+                && isScrollableView(mView) && canScroll(mView, direction)) {
+            return mView;
+        }
+        if (!(mView instanceof ViewGroup)) return null;
+
+        ViewGroup mViewGroup = (ViewGroup) mView;
         for (int i = 0; i < mViewGroup.getChildCount(); i++) {
-            View mView = mViewGroup.getChildAt(i);
-            if (mView.getVisibility() != View.VISIBLE) {
-                continue;
-            }
-            if (isScrollableView(mView) && canScroll(mView, direction)) {
-                return mView;
-            }
-            if (mView instanceof ViewGroup && isViewUnder(mView, x, y)) {
-                int relativeX = x - mViewGroup.getLeft() + mViewGroup.getScrollX();
-                int relativeY = y - mViewGroup.getTop() + mViewGroup.getScrollY();
-                mView = findScrollableViewContains((ViewGroup) mView, direction, relativeX, relativeY);
-                if (mView != null) {
-                    return mView;
-                }
+            View childView = mViewGroup.getChildAt(i);
+            int relativeX = x - mViewGroup.getLeft() + mViewGroup.getScrollX();
+            int relativeY = y - mViewGroup.getTop() + mViewGroup.getScrollY();
+            View scrollableView = findScrollableViewContains(childView, direction, relativeX, relativeY);
+            if (scrollableView != null) {
+                return scrollableView;
             }
         }
         return null;
