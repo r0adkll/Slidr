@@ -1,16 +1,16 @@
 package com.r0adkll.slidr.widget;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewGroupCompat;
 import androidx.customview.widget.ViewDragHelper;
 
 import com.r0adkll.slidr.model.SlidrConfig;
@@ -80,6 +80,7 @@ public class SliderPanel extends FrameLayout {
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(isLocked){
@@ -150,24 +151,24 @@ public class SliderPanel extends FrameLayout {
     private final ViewDragHelper.Callback leftCallback = new ViewDragHelper.Callback() {
 
         @Override
-        public boolean tryCaptureView(View child, int pointerId) {
-            boolean canScrollChild = ViewHelper.canChildUnderPointScrollable(child, SlidrPosition.LEFT, (int) startX, (int) startY);
+        public boolean tryCaptureView(@NonNull View child, int pointerId) {
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.LEFT, (int) startX, (int) startY);
             boolean edgeCase = !config.isEdgeOnly() || dragHelper.isEdgeTouched(edgePosition, pointerId);
-            return !canScrollChild && child.getId() == decorView.getId() && edgeCase;
+            return !canChildScroll && child.getId() == decorView.getId() && edgeCase;
         }
 
         @Override
-        public int clampViewPositionHorizontal(View child, int left, int dx) {
+        public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
             return clamp(left, 0, screenWidth);
         }
 
         @Override
-        public int getViewHorizontalDragRange(View child) {
+        public int getViewHorizontalDragRange(@NonNull View child) {
             return screenWidth;
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
             int left = releasedChild.getLeft();
@@ -194,7 +195,7 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float percent = 1f - ((float)left / (float) screenWidth);
 
@@ -235,23 +236,24 @@ public class SliderPanel extends FrameLayout {
      */
     private final ViewDragHelper.Callback rightCallback = new ViewDragHelper.Callback() {
         @Override
-        public boolean tryCaptureView(View child, int pointerId) {
+        public boolean tryCaptureView(@NonNull View child, int pointerId) {
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.RIGHT, (int) startX, (int) startY);
             boolean edgeCase = !config.isEdgeOnly() || dragHelper.isEdgeTouched(edgePosition, pointerId);
-            return child.getId() == decorView.getId() && edgeCase;
+            return !canChildScroll && child.getId() == decorView.getId() && edgeCase;
         }
 
         @Override
-        public int clampViewPositionHorizontal(View child, int left, int dx) {
+        public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
             return clamp(left, -screenWidth, 0);
         }
 
         @Override
-        public int getViewHorizontalDragRange(View child) {
+        public int getViewHorizontalDragRange(@NonNull View child) {
             return screenWidth;
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
             int left = releasedChild.getLeft();
@@ -278,7 +280,7 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float percent = 1f - ((float)Math.abs(left) / (float) screenWidth);
 
@@ -318,22 +320,23 @@ public class SliderPanel extends FrameLayout {
      */
     private final ViewDragHelper.Callback topCallback = new ViewDragHelper.Callback() {
         @Override
-        public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == decorView.getId() && (!config.isEdgeOnly() || isEdgeTouched);
+        public boolean tryCaptureView(@NonNull View child, int pointerId) {
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.TOP, (int) startX, (int) startY);
+            return !canChildScroll && child.getId() == decorView.getId() && (!config.isEdgeOnly() || isEdgeTouched);
         }
 
         @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
+        public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
             return clamp(top, 0, screenHeight);
         }
 
         @Override
-        public int getViewVerticalDragRange(View child) {
+        public int getViewVerticalDragRange(@NonNull View child) {
             return screenHeight;
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
             int top = releasedChild.getTop();
@@ -358,7 +361,7 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float percent = 1f - ((float)Math.abs(top) / (float) screenHeight);
 
@@ -398,22 +401,23 @@ public class SliderPanel extends FrameLayout {
      */
     private final ViewDragHelper.Callback bottomCallback = new ViewDragHelper.Callback() {
         @Override
-        public boolean tryCaptureView(View child, int pointerId) {
-            return child.getId() == decorView.getId() && (!config.isEdgeOnly() || isEdgeTouched);
+        public boolean tryCaptureView(@NonNull View child, int pointerId) {
+            boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, SlidrPosition.BOTTOM, (int) startX, (int) startY);
+            return !canChildScroll && child.getId() == decorView.getId() && (!config.isEdgeOnly() || isEdgeTouched);
         }
 
         @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
+        public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
             return clamp(top, -screenHeight, 0);
         }
 
         @Override
-        public int getViewVerticalDragRange(View child) {
+        public int getViewVerticalDragRange(@NonNull View child) {
             return screenHeight;
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
             int top = releasedChild.getTop();
@@ -438,7 +442,7 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float percent = 1f - ((float)Math.abs(top) / (float) screenHeight);
 
@@ -483,17 +487,24 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
+        public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
+            if ((top > 0 && dy > 0 || top < 0 && dy < 0)) {
+                SlidrPosition slidrPosition = dy > 0 ? SlidrPosition.TOP : SlidrPosition.BOTTOM;
+                boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, slidrPosition, (int) startX, (int) startY);
+                if (canChildScroll) {
+                    return 0;
+                }
+            }
             return clamp(top, -screenHeight, screenHeight);
         }
 
         @Override
-        public int getViewVerticalDragRange(View child) {
+        public int getViewVerticalDragRange(@NonNull View child) {
             return screenHeight;
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
             int top = releasedChild.getTop();
@@ -533,7 +544,7 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float percent = 1f - ((float)Math.abs(top) / (float) screenHeight);
 
@@ -579,17 +590,24 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public int clampViewPositionHorizontal(View child, int left, int dx) {
+        public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
+            if ((left > 0 && dx > 0 || left < 0 && dx < 0)) {
+                SlidrPosition slidrPosition = dx > 0 ? SlidrPosition.LEFT : SlidrPosition.RIGHT;
+                boolean canChildScroll = !config.isIgnoreChildScroll() && ViewHelper.hasScrollableChildrenUnderPoint(child, slidrPosition, (int) startX, (int) startY);
+                if (canChildScroll) {
+                    return 0;
+                }
+            }
             return clamp(left, -screenWidth, screenWidth);
         }
 
         @Override
-        public int getViewHorizontalDragRange(View child) {
+        public int getViewHorizontalDragRange(@NonNull View child) {
             return screenWidth;
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
 
             int left = releasedChild.getLeft();
@@ -626,7 +644,7 @@ public class SliderPanel extends FrameLayout {
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             float percent = 1f - ((float)Math.abs(left) / (float) screenWidth);
 
@@ -703,7 +721,7 @@ public class SliderPanel extends FrameLayout {
         dragHelper.setMinVelocity(minVel);
         dragHelper.setEdgeTrackingEnabled(edgePosition);
 
-        ViewGroupCompat.setMotionEventSplittingEnabled(this, false);
+        setMotionEventSplittingEnabled(false);
 
         // Setup the dimmer view
         scrimPaint = new Paint();
@@ -716,12 +734,7 @@ public class SliderPanel extends FrameLayout {
          * ignore the system navigation that would be included if we
          * retrieved this value from the DisplayMetrics
          */
-        post(new Runnable() {
-            @Override
-            public void run() {
-                screenHeight = getHeight();
-            }
-        });
+        post(() -> screenHeight = getHeight());
 
     }
 

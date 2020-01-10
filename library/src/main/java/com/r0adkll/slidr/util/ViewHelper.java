@@ -14,16 +14,7 @@ import com.r0adkll.slidr.model.SlidrPosition;
 
 public class ViewHelper {
 
-    public static boolean isScrollableView(View mView) {
-        return mView instanceof ScrollView
-                || mView instanceof HorizontalScrollView
-                || mView instanceof AbsListView
-                || mView instanceof ScrollingView
-                || mView instanceof ViewPager
-                || mView instanceof WebView;
-    }
-
-    public static boolean canChildUnderPointScrollable(View mView, SlidrPosition direction, int x, int y) {
+    public static boolean hasScrollableChildrenUnderPoint(View mView, SlidrPosition direction, int x, int y) {
         View scrollableView = null;
         if (mView instanceof ViewGroup) {
             scrollableView = findScrollableViewContains((ViewGroup) mView, direction, x, y);
@@ -70,7 +61,16 @@ public class ViewHelper {
         return false;
     }
 
-    public static boolean isViewUnder(View view, int x, int y) {
+    private static boolean isScrollableView(View mView) {
+        return mView instanceof ScrollView
+                || mView instanceof HorizontalScrollView
+                || mView instanceof AbsListView
+                || mView instanceof ScrollingView
+                || mView instanceof ViewPager
+                || mView instanceof WebView;
+    }
+
+    private static boolean isViewUnder(View view, int x, int y) {
         if (view == null) {
             return false;
         }
