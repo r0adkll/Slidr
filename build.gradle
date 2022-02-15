@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:7.1.1'
     }
 }
 
@@ -23,18 +23,17 @@ ext {
 	libraryVersion = VERSION_NAME
 
 	//Support and Build tools version
-    compileSdk = 28
-    targetSdk = 28
-    minSdk = 19
-    ftKit = '0.6.0'
+    appCompileSdk = 31
+    appTargetSdk = 28
+    appMinSdk = 21
+    ftKit = '0.6.2'
 
 	//Support Libraries dependencies
 	supportDependencies = [
-			support       : 'androidx.legacy:legacy-support-v4:1.0.0',
             appCompat     : 'androidx.appcompat:appcompat:1.0.0',
             recycler      : 'androidx.recyclerview:recyclerview:1.0.0',
             cardView      : 'androidx.cardview:cardview:1.0.0',
-            kitCore       : "com.52inc:52Kit-core:${ftKit}"
+            kitCore       : "com.52inc:52Kit-core:${ftKit}"/*https://mvnrepository.com/artifact/com.52inc/52Kit-core/*/
 	]
 
 }
