@@ -1,3 +1,6 @@
+# Deprecated
+This library is no longer supported as the modern convention of building Android apps switches from multi-Activity to single-Activity. If you are looking for similar behavior look into supporting Android's new [predictive back handling](https://developer.android.com/guide/navigation/custom-back/predictive-back-gesture)
+
 Slidr
 ================
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.r0adkll/slidableactivity) [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Slidr-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1364)
