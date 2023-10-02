@@ -2,8 +2,6 @@ package com.r0adkll.slidr.example;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -17,8 +15,11 @@ import com.r0adkll.slidr.example.model.AndroidOS;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrPosition;
 
-import butterknife.ButterKnife;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
@@ -82,7 +83,6 @@ public class ViewerActivity extends AppCompatActivity {
         // Load header image
         Glide.with(this)
                 .load(mOS.image_url)
-                .crossFade()
                 .into(mCover);
     }
 
@@ -103,7 +103,7 @@ public class ViewerActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(EXTRA_OS, mOS);
     }
