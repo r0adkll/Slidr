@@ -16,7 +16,7 @@ public class SlidrConfig {
     private int colorPrimary = -1;
     private int colorSecondary = -1;
     private float touchSize = -1f;
-    private float sensitivity = 1f;
+    private float sensitivity = 0.5f;
     private int scrimColor = Color.BLACK;
     private float scrimStartAlpha = 0.8f;
     private float scrimEndAlpha = 0f;
@@ -24,6 +24,7 @@ public class SlidrConfig {
     private float distanceThreshold = 0.25f;
     private boolean edgeOnly = false;
     private float edgeSize = 0.18f;
+    private boolean ignoreChildScroll = false;
 
     private SlidrPosition position = SlidrPosition.LEFT;
     private SlidrListener listener;
@@ -179,6 +180,15 @@ public class SlidrConfig {
         return edgeSize * size;
     }
 
+    /**
+     * Has the user configured slidr to ignore all scrollable children inside
+     *
+     * @return      true if is ignore all scrollable children under touch
+     */
+    public boolean isIgnoreChildScroll() {
+        return ignoreChildScroll;
+    }
+
 
     /***********************************************************************************************
      *
@@ -301,6 +311,11 @@ public class SlidrConfig {
 
         public Builder edgeSize(@FloatRange(from = 0f, to = 1f) float edgeSize){
             config.edgeSize = edgeSize;
+            return this;
+        }
+
+        public Builder ignoreChildScroll(boolean ignoreChildScroll){
+            config.ignoreChildScroll = ignoreChildScroll;
             return this;
         }
 

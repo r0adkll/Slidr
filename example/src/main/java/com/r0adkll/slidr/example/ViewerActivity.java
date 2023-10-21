@@ -1,14 +1,20 @@
 package com.r0adkll.slidr.example;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.ftinc.kit.adapter.BetterRecyclerAdapter;
 import com.ftinc.kit.util.SizeUtils;
 import com.ftinc.kit.util.Utils;
 import com.ftinc.kit.widget.AspectRatioImageView;
@@ -34,6 +40,8 @@ public class ViewerActivity extends AppCompatActivity {
     @BindView(R.id.version) TextView mVersion;
     @BindView(R.id.sdk) TextView mSdk;
     @BindView(R.id.position) TextView mPosition;
+    @BindView(R.id.recycler) RecyclerView recycler;
+    @BindView(R.id.recycler2) RecyclerView recycler2;
 
     private AndroidOS mOS;
     private SlidrConfig mConfig;
@@ -56,7 +64,7 @@ public class ViewerActivity extends AppCompatActivity {
         mConfig = new SlidrConfig.Builder()
                 .primaryColor(primary)
                 .secondaryColor(secondary)
-                .position(SlidrPosition.VERTICAL)
+                .position(SlidrPosition.HORIZONTAL)
                 .velocityThreshold(2400)
 //                .distanceThreshold(.25f)
 //                .edge(true)
@@ -84,11 +92,26 @@ public class ViewerActivity extends AppCompatActivity {
                 .load(mOS.image_url)
                 .crossFade()
                 .into(mCover);
+
+        // Color recycler view
+        recycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        ColorAdapter colorAdapter = new ColorAdapter();
+        recycler.setAdapter(colorAdapter);
+        colorAdapter.setOnItemClickListener((view, colorNumber, i) -> {
+            onColorClicked(colorNumber);
+        });
+
+        // Color recycler view
+        recycler2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        ColorAdapter colorAdapter2 = new ColorAdapter();
+        recycler2.setAdapter(colorAdapter2);
+        colorAdapter2.setOnItemClickListener((view, colorNumber, i) -> {
+            onColorClicked(colorNumber);
+        });
     }
 
-    @OnClick({R.id.color1, R.id.color2, R.id.color3, R.id.color4, R.id.color5})
-    void onColorClicked(View v){
-        int color = ((ColorDrawable)v.getBackground()).getColor();
+    private void onColorClicked(Integer colorNumber) {
+        int color = ContextCompat.getColor(this, colorNumber);
         getWindow().setStatusBarColor(color);
         mConfig.setColorSecondary(color);
     }
